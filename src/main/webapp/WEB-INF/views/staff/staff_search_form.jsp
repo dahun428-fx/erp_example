@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -16,10 +17,10 @@
 <body>
 
 <div class="container-fluid">
+  		<form action="search.do" method="post">
   <div class="row">
   <!-- 검색 form -->
   	<div class="col-sm-12 mt-2">
-  		<form action="">
   		<div class="row">
   			<div class="col-sm-12">
 		  		<table class="table table-bordered" id="search-form-table">
@@ -44,10 +45,10 @@
 		  					<td>
 		  						<div class="form-group">
 		  							<input id="radio-male" class="input-control" 
-		  								type="radio" name="sex" value="male" checked="checked"/>
+		  								type="radio" name="gender" value="male" checked="checked"/>
 		  							<label for="radio-male">남</label>
 		  							<input id="radio-female" class="input-control"  
-		  								type="radio" name="sex" value="female"/>
+		  								type="radio" name="gender" value="female"/>
 		  							<label for="radio-female">여</label>
 		  						</div>
 		  					</td>
@@ -57,7 +58,12 @@
 		  					<td>
 		  						<div class="form-group">
 		  							<select name="department" class="form-control">
-		  								<option value="" selected="selected">전체</option>
+		  								<option value="" selected="selected"></option>
+		  							<c:if test="${not empty deptList}">	
+		  								<c:forEach items="${deptList }" var="dept">
+		  								<option value="${dept.code }" >${dept.name }</option>
+		  								</c:forEach>
+		  							</c:if>	
 		  							</select>
 		  						</div>
 		  					</td>
@@ -69,15 +75,13 @@
 		  					<td>
 		  						<div class="form-group">
 		  						<!-- list jstl 구현 -->
-		  							<input type="radio" class="input-control" id="graduate-highschool" 
-		  								name="graduate" value="고졸" checked="checked"/>
-		  							<label for="graduate-highschool">고졸</label>
-		  							<input type="radio" class="input-control" id="graduate-college" 
-		  								name="graduate" value="전문대졸"/>
-		  							<label for="graduate-college">전문대졸</label>
-		  							<input type="radio" class="input-control" id="graduate-university"
-		  								name="graduate" value="일반대졸"/>
-		  							<label for="graduate-university">일반대졸</label>
+		  						<c:if test="${not empty schoolList}">
+			  						<c:forEach items="${schoolList }" var="school">
+			  							<input type="radio" class="input-control" id="education-${school.code }" 
+			  								name="education" value="${school.name }"/>
+			  							<label for="education-${school.code }">${school.name }</label>
+			  						</c:forEach>
+		  						</c:if>
 		  						</div>
 		  					</td>
 		  					<td>
@@ -86,21 +90,13 @@
 		  					<td colspan="3">
 		  						<div class="form-group">
 		  						<!-- checkbox list 기술 jstl 구현 -->
-		  							<input type="checkbox" class="input-control"  
-		  							name="skill" value="Java" id="skill-java"/>
-		  							<label for="skill-java">Java</label>
-		  							<input type="checkbox" class="input-control" 
-		  							name="skill" value="JSP" id="skill-jsp"/>
-		  							<label for="skill-jsp">JSP</label>
-		  							<input type="checkbox" class="input-control" 
-		  							name="skill" value="ASP" id="skill-asp"/>
-		  							<label for="skill-asp">ASP</label>
-		  							<input type="checkbox" class="input-control" 
-		  							name="skill" value="ASP" id="skill-asp"/>
-		  							<label for="skill-asp">ASP</label>
-		  							<input type="checkbox" class="input-control" 
-		  							name="skill" value="ASP" id="skill-asp"/>
-		  							<label for="skill-asp">ASP</label>
+		  						<c:if test="${not empty skillList}">
+			  						<c:forEach items="${skillList }" var="skill">
+			  							<input type="checkbox" class="input-control" 
+			  							name="skill" value="${skill.name }" id="skill-${skill.code }"/>
+			  							<label for="skill-${skill.code }">${skill.name }</label>
+			  						</c:forEach>
+		  						</c:if>
 		  						</div>
 		  					</td>
 		  				</tr>
@@ -110,32 +106,61 @@
 		  					</td>
 		  					<td colspan="5">
 		  						<div class="form-group text-center">
+		  							<fmt:formatDate value="${todayDate }" var="todayYear" pattern="yyyy"/>
+		  							<fmt:formatDate value="${todayDate }" var="todayMonth" pattern="MM"/>
+		  							<fmt:formatDate value="${todayDate }" var="todayDay" pattern="dd"/>
 			  						<span>
-				  						<select name="" id="" class="input-control">
-				  							<option value=""></option>
+				  						<select name="startYear" id="start-year" class="input-control">
+				  							<option value="" selected="selected"></option>
+				  							<c:forEach begin="0" end="${todayYear - 1970 }" var="i">
+				  								<c:set var="yearOption" value="${todayYear - i }" />
+				  								<option value="${yearOption }"
+				  								>${yearOption}</option>
+				  							</c:forEach>
 				  						</select>
 				  						<span>년</span>
-				  						<select name="" id="" class="input-control">
+				  						<select name="startMonth" id="start-month" class="input-control">
 				  							<option value=""></option>
+				  							<c:forEach begin="1" end="12" var="month">
+				  								<option value="${month }"
+				  								>${month }</option>
+				  							</c:forEach>
 				  						</select>
 				  						<span>월</span>
-				  						<select name="" id="" class="input-control">
+				  						<select name="startDay" id="start-day" class="input-control">
 				  							<option value=""></option>
+				  							<c:forEach begin="1" end="31" var="day">
+					  							<option value="${day }"
+					  							>${day }</option>
+				  							</c:forEach>	
 				  						</select>
 				  						<span>일</span>
 			  						</span>
 			  						<span style="margin:0 20px 0 20px;">~</span>
 			  						<span>
-			  							<select name="" id="" class="input-control">
-			  							<option value=""></option>
+			  							<select name="endYear" id="end-year" class="input-control">
+				  							<option value="" selected="selected"></option>
+				  							<c:forEach begin="0" end="${todayYear - 1970 }" var="i">
+				  								<c:set var="yearOption" value="${todayYear - i }" />
+				  								<option value="${yearOption }"
+				  								>${yearOption}</option>
+				  							</c:forEach>
 				  						</select>
 				  						<span>년</span>
-				  						<select name="" id="" class="input-control">
+				  						<select name="endMonth" id="end-month" class="input-control">
 				  							<option value=""></option>
+				  							<c:forEach begin="1" end="12" var="month">
+				  								<option value="${month }"
+				  								>${month }</option>
+				  							</c:forEach>
 				  						</select>
 				  						<span>월</span>
-				  						<select name="" id="" class="input-control">
+				  						<select name="endDay" id="end-day" class="input-control">
 				  							<option value=""></option>
+				  							<c:forEach begin="1" end="31" var="day">
+					  							<option value="${day }"
+					  							>${day }</option>
+				  							</c:forEach>	
 				  						</select>
 				  						<span>일</span>
 			  						</span>
@@ -158,7 +183,7 @@
   				</div>
   			</div>
   		</div>
-  		</form>
+  		
   	</div>
   	<!-- 검색결과 -->
   	<div class="col-sm-12 mt-5">
@@ -196,8 +221,25 @@
   			</tbody>
   		</table>
   	</div>
+  	<div class="col-sm-12 mt-1 d-flex justify-content-center">
+			<nav aria-label="Page navigation">
+				<ul class="pagination text-center">
+					<li class="page-item"><a class="page-link" href="#"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+									<span class="sr-only">Previous</span>
+					</a></li>
+					<li class="page-item"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item"><a class="page-link" href="#"
+					aria-label="Next"> <span aria-hidden="true">&raquo;</span> <span
+							class="sr-only">Next</span>
+						</a></li>
+				</ul>
+			</nav>
+	</div>
   </div>
-  
+  </form>
 </div>
 
 <script type="text/javascript" src="<c:url value="/resources/js/erp.js" />"></script>

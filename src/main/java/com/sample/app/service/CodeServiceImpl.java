@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.sample.app.dao.CodeDepartmentDao;
 import com.sample.app.dao.CodeSchoolDao;
+import com.sample.app.dao.CodeSkillDao;
 import com.sample.app.vo.CodeDepartment;
 import com.sample.app.vo.CodeSchool;
+import com.sample.app.vo.CodeSkill;
 
 @Service
 public class CodeServiceImpl implements CodeService {
@@ -20,6 +22,9 @@ public class CodeServiceImpl implements CodeService {
 	@Autowired
 	private CodeSchoolDao codeSchoolDao;
 	
+	@Autowired
+	private CodeSkillDao codeSkillDao;
+	
 	public List<CodeDepartment> codeDepartmentList(Map<String, Object> param) {
 		String query = (String) param.get("query");
 		if("getAllCodeDepartment".equals(query)) {
@@ -29,7 +34,6 @@ public class CodeServiceImpl implements CodeService {
 		return codeDepartmentDao.getAllCodeDepartment();
 	}
 	
-	@Override
 	public List<CodeSchool> codeSchoolList(Map<String, Object> param) {
 		String query = (String) param.get("query");
 		
@@ -39,4 +43,14 @@ public class CodeServiceImpl implements CodeService {
 		
 		return codeSchoolDao.getAllCodeSchoolDao();
 	}
+
+	public List<CodeSkill> codeSkillList(Map<String, Object> param) {
+		String query = (String) param.get("query");
+		if("getAllCodeSkill".equals(query)) {
+			return codeSkillDao.getAllCodeSkill();
+		}
+		
+		return codeSkillDao.getAllCodeSkill();
+	}
+	
 }
