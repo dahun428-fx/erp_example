@@ -2,8 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="utf-8">
 <head>
   <title>ERP 예제</title>
   <meta charset="utf-8">
@@ -17,13 +18,13 @@
 <body>
 
 <div class="container-fluid">
-  		<form action="search.do" method="post">
+ <form:form action="search.do" method="post" modelAttribute="searchForm" id="search-form">
   <div class="row">
   <!-- 검색 form -->
   	<div class="col-sm-12 mt-2">
   		<div class="row">
   			<div class="col-sm-12">
-		  		<table class="table table-bordered" id="search-form-table">
+		  		<table class="table table-bordered" id="search-form-table" >
 		  			<tbody>
 		  				<tr>
 		  					<td colspan="6">
@@ -36,7 +37,7 @@
 		  					</td>
 		  					<td>
 		  						<div class="form-group">
-		  							<input type="text" class="form-control" name="name"/>
+		  							<form:input type="text" class="form-control" path="name"/>
 		  						</div>
 		  					</td>
 		  					<td>
@@ -44,11 +45,11 @@
 		  					</td>
 		  					<td>
 		  						<div class="form-group">
-		  							<input id="radio-male" class="input-control" 
-		  								type="radio" name="gender" value="male" checked="checked"/>
+		  							<form:radiobutton id="radio-male" class="input-control" 
+		  								value="male" checked="checked" path="gender"/>
 		  							<label for="radio-male">남</label>
-		  							<input id="radio-female" class="input-control"  
-		  								type="radio" name="gender" value="female"/>
+		  							<form:radiobutton id="radio-female" class="input-control"  
+		  								value="female" path="gender"/>
 		  							<label for="radio-female">여</label>
 		  						</div>
 		  					</td>
@@ -57,14 +58,14 @@
 		  					</td>
 		  					<td>
 		  						<div class="form-group">
-		  							<select name="department" class="form-control">
+		  							<form:select class="form-control" path="department">
 		  								<option value="" selected="selected"></option>
-		  							<c:if test="${not empty deptList}">	
-		  								<c:forEach items="${deptList }" var="dept">
-		  								<option value="${dept.code }" >${dept.name }</option>
-		  								</c:forEach>
-		  							</c:if>	
-		  							</select>
+			  							<c:if test="${not empty deptList}">	
+			  								<c:forEach items="${deptList }" var="dept">
+			  								<form:option value="${dept.code }" >${dept.name }</form:option>
+			  								</c:forEach>
+			  							</c:if>	
+		  							</form:select>
 		  						</div>
 		  					</td>
 		  				</tr>
@@ -77,8 +78,8 @@
 		  						<!-- list jstl 구현 -->
 		  						<c:if test="${not empty schoolList}">
 			  						<c:forEach items="${schoolList }" var="school">
-			  							<input type="radio" class="input-control" id="education-${school.code }" 
-			  								name="education" value="${school.name }"/>
+			  							<form:radiobutton class="input-control" id="education-${school.code }" 
+			  								path="education" value="${school.name }"/>
 			  							<label for="education-${school.code }">${school.name }</label>
 			  						</c:forEach>
 		  						</c:if>
@@ -92,8 +93,8 @@
 		  						<!-- checkbox list 기술 jstl 구현 -->
 		  						<c:if test="${not empty skillList}">
 			  						<c:forEach items="${skillList }" var="skill">
-			  							<input type="checkbox" class="input-control" 
-			  							name="skill" value="${skill.name }" id="skill-${skill.code }"/>
+			  							<form:checkbox class="input-control" 
+			  							path="skill" value="${skill.name }" id="skill-${skill.code }"/>
 			  							<label for="skill-${skill.code }">${skill.name }</label>
 			  						</c:forEach>
 		  						</c:if>
@@ -110,58 +111,63 @@
 		  							<fmt:formatDate value="${todayDate }" var="todayMonth" pattern="MM"/>
 		  							<fmt:formatDate value="${todayDate }" var="todayDay" pattern="dd"/>
 			  						<span>
-				  						<select name="startYear" id="start-year" class="input-control">
+				  						<form:select path="startYear" id="start-year" class="input-control">
 				  							<option value="" selected="selected"></option>
 				  							<c:forEach begin="0" end="${todayYear - 1970 }" var="i">
 				  								<c:set var="yearOption" value="${todayYear - i }" />
-				  								<option value="${yearOption }"
-				  								>${yearOption}</option>
+				  								<form:option value="${yearOption }"
+				  								>${yearOption}</form:option>
 				  							</c:forEach>
-				  						</select>
+				  						</form:select>
 				  						<span>년</span>
-				  						<select name="startMonth" id="start-month" class="input-control">
+				  						<form:select path="startMonth" id="start-month" class="input-control">
 				  							<option value=""></option>
 				  							<c:forEach begin="1" end="12" var="month">
-				  								<option value="${month }"
-				  								>${month }</option>
+				  								<form:option value="${month }">
+				  									<fmt:formatNumber pattern="00" value="${month }" />
+				  								</form:option>
 				  							</c:forEach>
-				  						</select>
+				  						</form:select>
 				  						<span>월</span>
-				  						<select name="startDay" id="start-day" class="input-control">
+				  						<form:select path="startDay" id="start-day" class="input-control">
 				  							<option value=""></option>
 				  							<c:forEach begin="1" end="31" var="day">
-					  							<option value="${day }"
-					  							>${day }</option>
+					  							<form:option value="${day }">
+						  							<fmt:formatNumber pattern="00" value="${day }" />
+					  							</form:option>
 				  							</c:forEach>	
-				  						</select>
+				  						</form:select>
 				  						<span>일</span>
 			  						</span>
 			  						<span style="margin:0 20px 0 20px;">~</span>
 			  						<span>
-			  							<select name="endYear" id="end-year" class="input-control">
+			  							<form:select path="endYear" id="end-year" class="input-control">
 				  							<option value="" selected="selected"></option>
 				  							<c:forEach begin="0" end="${todayYear - 1970 }" var="i">
 				  								<c:set var="yearOption" value="${todayYear - i }" />
-				  								<option value="${yearOption }"
-				  								>${yearOption}</option>
+				  								<form:option value="${yearOption }">
+				  								${yearOption}
+				  								</form:option>
 				  							</c:forEach>
-				  						</select>
+				  						</form:select>
 				  						<span>년</span>
-				  						<select name="endMonth" id="end-month" class="input-control">
+				  						<form:select path="endMonth" id="end-month" class="input-control">
 				  							<option value=""></option>
 				  							<c:forEach begin="1" end="12" var="month">
-				  								<option value="${month }"
-				  								>${month }</option>
+				  								<form:option value="${month }">
+				  									<fmt:formatNumber pattern="00" value="${month }" />
+				  								</form:option>
 				  							</c:forEach>
-				  						</select>
+				  						</form:select>
 				  						<span>월</span>
-				  						<select name="endDay" id="end-day" class="input-control">
+				  						<form:select path="endDay" id="end-day" class="input-control">
 				  							<option value=""></option>
 				  							<c:forEach begin="1" end="31" var="day">
-					  							<option value="${day }"
-					  							>${day }</option>
+					  							<form:option value="${day }">
+					  								<fmt:formatNumber pattern="00" value="${day }" />
+					  							</form:option>
 				  							</c:forEach>	
-				  						</select>
+				  						</form:select>
 				  						<span>일</span>
 			  						</span>
 		  						</div>
@@ -173,12 +179,12 @@
   			<div class="col-sm-12">
   				<div class="row">
   					<div class="col-sm-6 text-right">
-		  				<button style="width: 10rem;" class="btn btn-primary" type="button">검색</button>
+		  				<button style="width: 10rem;" class="btn btn-primary" type="submit">검색</button>
   					</div>
   					<div class="col-sm-6 text-right">
 		  				<button class="btn btn-primary" type="button">전부검색</button>
 		  				<button class="btn btn-primary" type="reset">초기화</button>
-		  				<button class="btn btn-primary" type="button">등록</button>
+		  				<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#staff-input-modal">등록</button>
   					</div>
   				</div>
   			</div>
@@ -239,9 +245,9 @@
 			</nav>
 	</div>
   </div>
-  </form>
+  </form:form>
 </div>
-
+<%@ include file="./staff_input_form.jsp" %>
 <script type="text/javascript" src="<c:url value="/resources/js/erp.js" />"></script>
 </body>
 </html>
