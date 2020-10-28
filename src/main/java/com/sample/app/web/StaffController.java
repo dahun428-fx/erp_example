@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sample.app.form.AddForm;
 import com.sample.app.form.SearchForm;
 import com.sample.app.service.CodeService;
 import com.sample.app.vo.CodeDepartment;
@@ -67,8 +68,8 @@ public class StaffController {
 		return "staff/staff_search_form";
 	}
 	@PostMapping("/add.do")
-	public String add() {
-		
+	public String add(AddForm addForm) {
+		System.out.println(addForm);
 		
 		return "redirect:/main.do";
 	}

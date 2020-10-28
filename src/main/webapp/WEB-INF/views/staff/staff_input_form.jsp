@@ -45,7 +45,7 @@
 		  					</td>
 		  					<td>
 		  						<div class="form-group">
-		  							<select class="form-control" name="department">
+		  							<select class="form-control" name="departmentCode">
 		  								<option value="" selected="selected"></option>
 			  							<c:if test="${not empty deptList}">	
 			  								<c:forEach items="${deptList }" var="dept">
@@ -66,7 +66,7 @@
 		  						<c:if test="${not empty schoolList}">
 			  						<c:forEach items="${schoolList }" var="school">
 			  							<input type="radio" class="input-control" id="add-education-${school.code }" 
-			  								name="education" value="${school.name }"/>
+			  								name="education" value="${school.code }"/>
 			  							<label for="education-${school.code }">${school.name }</label>
 			  						</c:forEach>
 		  						</c:if>
@@ -81,7 +81,7 @@
 		  						<c:if test="${not empty skillList}">
 			  						<c:forEach items="${skillList }" var="skill">
 			  							<input type="checkbox" class="input-control" 
-			  							name="skill" value="${skill.name }" id="add-skill-${skill.code }"/>
+			  							name="skillCode" value="${skill.code }" id="add-skill-${skill.code }"/>
 			  							<label for="skill-${skill.code }">${skill.name }</label>
 			  						</c:forEach>
 		  						</c:if>
