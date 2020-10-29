@@ -8,4 +8,13 @@
 		from
 			code_department
 	</select>
+	<select id="getDepartmentByCode" parameterType="int" resultType="CodeDepartment">
+		select 
+			department_code 		as "code",
+			department_name 		as "name"
+		from
+			code_department
+		where
+			department_code = #{value}
+	</select>
 </mapper>

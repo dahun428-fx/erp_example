@@ -7,4 +7,5 @@ import com.sample.app.vo.CodeSkill;
 public interface CodeSkillDao {
 
 	List<CodeSkill> getAllCodeSkill();
+	CodeSkill getSkillByCode(int code);
 }

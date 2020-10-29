@@ -1,12 +1,18 @@
 package com.sample.app.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sample.app.dao.CodeDepartmentDao;
+import com.sample.app.dao.CodeSchoolDao;
 import com.sample.app.dao.StaffDao;
 import com.sample.app.dao.StaffSkillDao;
 import com.sample.app.form.AddForm;
@@ -24,6 +30,28 @@ public class StaffServiceImpl implements StaffService{
 	
 	@Autowired
 	private StaffSkillDao skillDao;
+	
+	@Autowired
+	private CodeDepartmentDao departmentDao;
+	
+	@Autowired
+	private CodeSchoolDao schoolDao;
+	
+	public Map<String, Object> list(Map<String, Object> param){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<Staff> staffList = staffDao.getAllStaff(param);
+		for(Staff staff : staffList) {
+			CodeDepartment department = departmentDao.getDepartmentByCode(staff.getDepartment().getCode());
+			CodeSchool school = schoolDao.getSchoolByCode(staff.getSchool().getCode());
+			staff.setDepartment(department);
+			staff.setSchool(school);
+			System.out.println(staff);
+		}
+		
+		resultMap.put("staffList", staffList);
+		return resultMap;
+	}
+	
 	
 	@Transactional
 	public void addStaff(AddForm addForm) {
@@ -46,7 +74,6 @@ public class StaffServiceImpl implements StaffService{
 		
 		//staff insert
 		staffDao.add(staff);
-//		System.out.println(staff);
 
 		StaffSkill staffSkill = new StaffSkill();
 		staffSkill.setStaff(staff); 
@@ -56,6 +83,7 @@ public class StaffServiceImpl implements StaffService{
 		skillDao.add(staffSkill);
 		System.out.println(staffSkill);
 	}
+	
 	private CodeSkill[] getStaffSkillArray(int[] skillcodes) {
 		CodeSkill[] codeSkills = new CodeSkill[skillcodes.length];
 		for(int i = 0; i < skillcodes.length; i++) {

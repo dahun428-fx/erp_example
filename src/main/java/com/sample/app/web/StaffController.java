@@ -20,6 +20,7 @@ import com.sample.app.service.StaffService;
 import com.sample.app.vo.CodeDepartment;
 import com.sample.app.vo.CodeSchool;
 import com.sample.app.vo.CodeSkill;
+import com.sample.app.vo.Staff;
 
 @Controller
 public class StaffController {
@@ -63,12 +64,16 @@ public class StaffController {
 		List<CodeSkill> skillList = codeService.codeSkillList(param);
 		param.put("query", "getAllCodeDepartment");
 		List<CodeDepartment> deptList = codeService.codeDepartmentList(param);
+		param.put("", "");
+		List<Staff> staffList = (List<Staff>) staffService.list(param).get("staffList");
+		
 		
 		model.addAttribute("schoolList", schoolList);
 		model.addAttribute("skillList", skillList);
 		model.addAttribute("deptList", deptList);
 		model.addAttribute("todayDate", new Date());
 		model.addAttribute("searchForm", searchForm);
+		model.addAttribute("staffList", staffList);
 		
 		return "staff/staff_search_form";
 	}

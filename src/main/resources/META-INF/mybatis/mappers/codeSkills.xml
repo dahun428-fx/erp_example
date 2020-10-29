@@ -8,5 +8,12 @@
 		FROM code_skill
 		
 	</select>
-
+	<select id="getSkillByCode" parameterType="int" resultType="CodeSkill">
+		SELECT
+			skill_code 		as "code",
+			skill_name 		as "name"
+		FROM code_skill
+		WHERE skill_code = #{value}
+		
+	</select>
 </mapper>

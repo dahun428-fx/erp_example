@@ -193,6 +193,7 @@
   	</div>
   	<!-- 검색결과 -->
   	<div class="col-sm-12 mt-5">
+  		<c:if test="${staffList ne null }">
   		<table class="table table-bordered">
   			<colgroup>
   			<col width="10%">
@@ -213,6 +214,7 @@
   				</tr>
   			</thead>
   			<tbody class="text-center">
+  			<c:forEach items="${staffList }">
   				<tr>
   					<td>1</td>
   					<td>1</td>
@@ -222,10 +224,12 @@
   					<td>
   						<button class="btn btn-secondary">수정/삭제</button>
   					</td>
-  					
   				</tr>
+  			</c:forEach>
+  			
   			</tbody>
   		</table>
+  		</c:if>
   	</div>
   	<div class="col-sm-12 mt-1 d-flex justify-content-center">
 			<nav aria-label="Page navigation">

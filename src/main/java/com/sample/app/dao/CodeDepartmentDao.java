@@ -8,4 +8,5 @@ import com.sample.app.vo.CodeDepartment;
 public interface CodeDepartmentDao {
 
 	List<CodeDepartment> getAllCodeDepartment();
+	CodeDepartment getDepartmentByCode(int code);
 }

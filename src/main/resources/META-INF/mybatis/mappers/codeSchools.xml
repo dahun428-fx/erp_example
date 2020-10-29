@@ -8,4 +8,14 @@
 		FROM 
 			code_school
 	</select>
+	<select id="getSchoolByCode" parameterType="int" resultType="CodeSchool">
+		SELECT
+			school_code 			as "code",
+			school_name 			as "name"
+		FROM
+			code_school
+		WHERE
+			school_code = #{value} 
+	</select>
+	
 </mapper>

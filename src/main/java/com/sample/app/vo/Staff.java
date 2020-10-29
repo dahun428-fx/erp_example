@@ -2,6 +2,8 @@ package com.sample.app.vo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Staff {
 	
 	private int no;
@@ -9,6 +11,7 @@ public class Staff {
 	private String juminNo;
 	private CodeSchool school;
 	private CodeDepartment department;
+	@JsonFormat("yyyy-MM-dd")
 	private Date graduateDay;
 
 	public Staff() {}
