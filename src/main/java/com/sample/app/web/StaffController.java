@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sample.app.form.AddForm;
 import com.sample.app.form.SearchForm;
 import com.sample.app.service.CodeService;
+import com.sample.app.service.StaffService;
 import com.sample.app.vo.CodeDepartment;
 import com.sample.app.vo.CodeSchool;
 import com.sample.app.vo.CodeSkill;
@@ -25,6 +26,9 @@ public class StaffController {
 
 	@Autowired
 	private CodeService codeService;
+	
+	@Autowired
+	private StaffService staffService;
 	
 	@GetMapping("/main.do")
 	public String main(Model model) {
@@ -47,6 +51,28 @@ public class StaffController {
 		
 		return "staff/staff_search_form";
 	}
+	@GetMapping("/search.do")
+	public String searchAll(Model model) {
+		
+		SearchForm searchForm = new SearchForm();
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("query", "getAllCodeSchool");
+		List<CodeSchool> schoolList = codeService.codeSchoolList(param);
+		param.put("query", "getAllCodeSkill");
+		List<CodeSkill> skillList = codeService.codeSkillList(param);
+		param.put("query", "getAllCodeDepartment");
+		List<CodeDepartment> deptList = codeService.codeDepartmentList(param);
+		
+		model.addAttribute("schoolList", schoolList);
+		model.addAttribute("skillList", skillList);
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("todayDate", new Date());
+		model.addAttribute("searchForm", searchForm);
+		
+		return "staff/staff_search_form";
+	}
+	
 	@PostMapping("/search.do")
 	public String search(@ModelAttribute("searchForm") SearchForm searchForm, Model model) {
 		System.out.println(searchForm);
@@ -70,7 +96,7 @@ public class StaffController {
 	@PostMapping("/add.do")
 	public String add(AddForm addForm) {
 		System.out.println(addForm);
-		
+		staffService.addStaff(addForm);
 		return "redirect:/main.do";
 	}
 }

@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sample.app.dao.StaffDao">
+	<insert id="add" parameterType="Staff" useGeneratedKeys="true" keyProperty="no">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+  		 	 select staff_seq.nextval FROM DUAL
+ 		 </selectKey>
+		
+		INSERT INTO staff
+		(staff_no, staff_name, jumin_no, school_code, department_code, graduate_day)
+		VALUES
+		(#{no}, #{name}, #{juminNo}, #{school.code}, #{department.code}, #{graduateDay})
+	</insert>
+
 </mapper>

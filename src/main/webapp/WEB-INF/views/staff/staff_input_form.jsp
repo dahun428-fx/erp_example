@@ -27,7 +27,7 @@
 		  					</td>
 		  					<td>
 		  						<div class="form-group">
-		  							<input type="text" class="form-control" name="name"/>
+		  							<input type="text" class="form-control" name="name" id="staff-name"/>
 		  						</div>
 		  					</td>
 		  					<td>
@@ -45,7 +45,7 @@
 		  					</td>
 		  					<td>
 		  						<div class="form-group">
-		  							<select class="form-control" name="departmentCode">
+		  							<select class="form-control" name="departmentCode" id="add-dept">
 		  								<option value="" selected="selected"></option>
 			  							<c:if test="${not empty deptList}">	
 			  								<c:forEach items="${deptList }" var="dept">

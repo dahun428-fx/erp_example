@@ -182,7 +182,7 @@
 		  				<button style="width: 10rem;" class="btn btn-primary" type="submit">검색</button>
   					</div>
   					<div class="col-sm-6 text-right">
-		  				<button class="btn btn-primary" type="button">전부검색</button>
+		  				<a class="btn btn-primary" type="button" href="/search.do">전부검색</a>
 		  				<button class="btn btn-primary" type="reset">초기화</button>
 		  				<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#staff-input-modal">등록</button>
   					</div>

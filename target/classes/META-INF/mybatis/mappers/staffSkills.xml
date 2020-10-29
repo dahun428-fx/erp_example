@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sample.app.dao.StaffSkillDao">
-</mapper>
+	<insert id="add" parameterType="StaffSkill">
+		INSERT INTO staff_skill 
+		(staff_skill_no, staff_no, skill_code)
+		SELECT staff_skill_seq.nextval, A.*
+		FROM(
+		<foreach collection="skills" item="skill" separator="UNION ALL ">
+		SELECT
+			#{staff.no} 		as staff_no,
+			#{skill.code} 		as skill_code
+		FROM
+			DUAL			
+		</foreach>
+		) A
+	</insert>
+
+
+</mapper> 

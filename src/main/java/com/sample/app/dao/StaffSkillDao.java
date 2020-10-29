@@ -1,5 +1,8 @@
 package com.sample.app.dao;
 
-public class StaffSkillDao {
+import com.sample.app.vo.StaffSkill;
 
+public interface StaffSkillDao {
+
+	void add(StaffSkill staffSkill);
 }

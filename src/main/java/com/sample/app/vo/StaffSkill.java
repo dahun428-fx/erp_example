@@ -1,10 +1,12 @@
 package com.sample.app.vo;
 
+import java.util.Arrays;
+
 public class StaffSkill {
 
 	private int no;
 	private Staff staff;
-	private CodeSkill skill;
+	private CodeSkill[] skills;
 	
 	public StaffSkill() {}
 
@@ -24,17 +26,18 @@ public class StaffSkill {
 		this.staff = staff;
 	}
 
-	public CodeSkill getSkill() {
-		return skill;
+	public CodeSkill[] getSkills() {
+		return skills;
 	}
 
-	public void setSkill(CodeSkill skill) {
-		this.skill = skill;
+	public void setSkills(CodeSkill[] skills) {
+		this.skills = skills;
 	}
 
 	@Override
 	public String toString() {
-		return "StaffSkill [no=" + no + ", staff=" + staff + ", skill=" + skill + "]";
+		return "StaffSkill [no=" + no + ", staff=" + staff + ", skills=" + Arrays.toString(skills) + "]";
 	}
+
 	
 }

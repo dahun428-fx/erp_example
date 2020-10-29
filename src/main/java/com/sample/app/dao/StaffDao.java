@@ -1,5 +1,7 @@
 package com.sample.app.dao;
 
-public interface StaffDao {
+import com.sample.app.vo.Staff;
 
+public interface StaffDao {
+	void add(Staff staff);
 }
