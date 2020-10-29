@@ -19,6 +19,7 @@ import com.sample.app.form.AddForm;
 import com.sample.app.vo.CodeDepartment;
 import com.sample.app.vo.CodeSchool;
 import com.sample.app.vo.CodeSkill;
+import com.sample.app.vo.Pagination;
 import com.sample.app.vo.Staff;
 import com.sample.app.vo.StaffSkill;
 
@@ -39,15 +40,26 @@ public class StaffServiceImpl implements StaffService{
 	
 	public Map<String, Object> list(Map<String, Object> param){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		int totalRows = staffDao.totalStaffCounts(param);
+		int rowsPerPage = 5;
+		int pagesPerBlock = 5;
+		int pageNo = (Integer) param.get("pageNo");
+		Pagination pagination = new Pagination(rowsPerPage, pagesPerBlock, pageNo, totalRows);
+		System.out.println("totalcount" + totalRows);
+		System.out.println(pagination);
+		param.put("pagination", pagination);
+		param.put("searchForm", param.get("searchForm"));
 		List<Staff> staffList = staffDao.getAllStaff(param);
 		for(Staff staff : staffList) {
 			CodeDepartment department = departmentDao.getDepartmentByCode(staff.getDepartment().getCode());
 			CodeSchool school = schoolDao.getSchoolByCode(staff.getSchool().getCode());
 			staff.setDepartment(department);
 			staff.setSchool(school);
+			
 			System.out.println(staff);
 		}
-		
+		resultMap.put("pagination", pagination);
 		resultMap.put("staffList", staffList);
 		return resultMap;
 	}

@@ -9,13 +9,17 @@ public class Staff {
 	private int no;
 	private String name;
 	private String juminNo;
+	private String gender;
 	private CodeSchool school;
 	private CodeDepartment department;
-	@JsonFormat("yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date graduateDay;
 
 	public Staff() {}
 
+	public String getGender() {
+		return gender;
+	}
 	public int getNo() {
 		return no;
 	}
@@ -37,6 +41,13 @@ public class Staff {
 	}
 
 	public void setJuminNo(String juminNo) {
+		if("1".equals(juminNo.substring(7,8))) {
+			this.gender = "남";
+		} else if ("3".equals(juminNo.substring(7,8))) {
+			this.gender = "남";
+		} else {
+			this.gender = "여";
+		}
 		this.juminNo = juminNo;
 	}
 
@@ -66,10 +77,10 @@ public class Staff {
 
 	@Override
 	public String toString() {
-		return "Staff [no=" + no + ", name=" + name + ", juminNo=" + juminNo + ", school=" + school + ", department="
-				+ department + ", graduateDay=" + graduateDay + "]";
+		return "Staff [no=" + no + ", name=" + name + ", juminNo=" + juminNo + ", gender=" + gender + ", school="
+				+ school + ", department=" + department + ", graduateDay=" + graduateDay + "]";
 	}
-	
+
 	
 
 }

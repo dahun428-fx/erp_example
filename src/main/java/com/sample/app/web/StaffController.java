@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sample.app.form.AddForm;
 import com.sample.app.form.SearchForm;
@@ -20,6 +21,7 @@ import com.sample.app.service.StaffService;
 import com.sample.app.vo.CodeDepartment;
 import com.sample.app.vo.CodeSchool;
 import com.sample.app.vo.CodeSkill;
+import com.sample.app.vo.Pagination;
 import com.sample.app.vo.Staff;
 
 @Controller
@@ -52,35 +54,13 @@ public class StaffController {
 		
 		return "staff/staff_search_form";
 	}
-	@GetMapping("/search.do")
-	public String searchAll(Model model) {
-		
-		SearchForm searchForm = new SearchForm();
-		
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("query", "getAllCodeSchool");
-		List<CodeSchool> schoolList = codeService.codeSchoolList(param);
-		param.put("query", "getAllCodeSkill");
-		List<CodeSkill> skillList = codeService.codeSkillList(param);
-		param.put("query", "getAllCodeDepartment");
-		List<CodeDepartment> deptList = codeService.codeDepartmentList(param);
-		param.put("", "");
-		List<Staff> staffList = (List<Staff>) staffService.list(param).get("staffList");
-		
-		
-		model.addAttribute("schoolList", schoolList);
-		model.addAttribute("skillList", skillList);
-		model.addAttribute("deptList", deptList);
-		model.addAttribute("todayDate", new Date());
-		model.addAttribute("searchForm", searchForm);
-		model.addAttribute("staffList", staffList);
-		
-		return "staff/staff_search_form";
-	}
 	
 	@PostMapping("/search.do")
 	public String search(@ModelAttribute("searchForm") SearchForm searchForm, Model model) {
 		System.out.println(searchForm);
+		if("true".equals(searchForm.getIsAllSearch())) {
+			searchForm = new SearchForm();
+		}
 
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("query", "getAllCodeSchool");
@@ -89,12 +69,18 @@ public class StaffController {
 		List<CodeSkill> skillList = codeService.codeSkillList(param);
 		param.put("query", "getAllCodeDepartment");
 		List<CodeDepartment> deptList = codeService.codeDepartmentList(param);
+		param.put("pageNo", ((searchForm.getPageNo() == 0) ? 1 : searchForm.getPageNo()));
+		param.put("searchForm", searchForm);
+		List<Staff> staffList = (List<Staff>) staffService.list(param).get("staffList");
+		Pagination pagination = (Pagination) staffService.list(param).get("pagination");
 		
 		model.addAttribute("schoolList", schoolList);
 		model.addAttribute("skillList", skillList);
 		model.addAttribute("deptList", deptList);
 		model.addAttribute("todayDate", new Date());
 		model.addAttribute("searchForm", searchForm);
+		model.addAttribute("staffList", staffList);
+		model.addAttribute("pagination", pagination);
 		
 		return "staff/staff_search_form";
 	}

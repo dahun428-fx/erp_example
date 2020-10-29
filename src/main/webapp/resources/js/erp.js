@@ -1,4 +1,49 @@
 $(function(){
+	$('#reset-search-btn').click(function(){
+		$('#name').val('');
+		$('#jumin-first-box').val('');
+		$('#jumin-second-box').val('');
+		$('input[name=gender]').prop('checked',false);
+		$('input[name=education]').prop('checked',false);
+		$('#dept').val('');
+		$('input[name=skill]').prop('checked',false);
+		
+		$('#start-year').val('');
+		$('#start-month').val('');
+		$('#start-day').val('');
+		$('#end-year').val('');
+		$('#end-month').val('');
+		$('#end-day').val('');
+		
+		console.log(1);
+	})
+	$('#allSearch-btn').click(function(){
+		var $isAllSearch = $('#isAllSearch');
+		console.log($isAllSearch.val());
+		$isAllSearch.val('true');
+		console.log($isAllSearch.val());
+		$('#search-form').submit();
+	})
+	$('.page-no').click(function(){
+		console.log($(this).data('page'))
+		$('#hidden-page-no').val($(this).data('page'));
+		console.log('now',$('#hidden-page-no').val())
+		$('#search-form').submit();
+	});
+	$('.page-before').click(function(){
+		console.log($(this).data('page'))
+		var pageNo = $('#hidden-page-no').val();
+		$('#hidden-page-no').val(Number(pageNo) - 1);
+		console.log('now',$('#hidden-page-no').val())
+		$('#search-form').submit();
+	})
+	$('.page-after').click(function(){
+		console.log($(this).data('page'))
+		var pageNo = $('#hidden-page-no').val();
+		$('#hidden-page-no').val(Number(pageNo) + 1);
+		console.log('now',$('#hidden-page-no').val())
+		$('#search-form').submit();
+	})
 	
 	//날짜 확인
 	$('#search-form').submit(function(){
@@ -10,10 +55,15 @@ $(function(){
 		var endDay = $('#end-day').val();
 		var startDate = changeDate(startYear, startMonth, startDay);
 		var endDate = changeDate(endYear, endMonth, endDay);
+		
+		if(startDate === '' && endDate === ''){
+			return true;
+		}
 		if(startDate.getTime() >= endDate.getTime()){
 			alert('졸업일을 확인해주세요');
 			return false;
 		}
+		
 		return true;
 	})
 	$('#add-form').submit(function(){

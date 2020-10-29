@@ -46,7 +46,7 @@
 		  					<td>
 		  						<div class="form-group">
 		  							<form:radiobutton id="radio-male" class="input-control" 
-		  								value="male" checked="checked" path="gender"/>
+		  								value="male" path="gender"/>
 		  							<label for="radio-male">남</label>
 		  							<form:radiobutton id="radio-female" class="input-control"  
 		  								value="female" path="gender"/>
@@ -58,7 +58,7 @@
 		  					</td>
 		  					<td>
 		  						<div class="form-group">
-		  							<form:select class="form-control" path="department">
+		  							<form:select class="form-control" path="department" id="dept">
 		  								<option value="" selected="selected"></option>
 			  							<c:if test="${not empty deptList}">	
 			  								<c:forEach items="${deptList }" var="dept">
@@ -79,7 +79,7 @@
 		  						<c:if test="${not empty schoolList}">
 			  						<c:forEach items="${schoolList }" var="school">
 			  							<form:radiobutton class="input-control" id="education-${school.code }" 
-			  								path="education" value="${school.name }"/>
+			  								path="education" value="${school.code }"/>
 			  							<label for="education-${school.code }">${school.name }</label>
 			  						</c:forEach>
 		  						</c:if>
@@ -94,7 +94,7 @@
 		  						<c:if test="${not empty skillList}">
 			  						<c:forEach items="${skillList }" var="skill">
 			  							<form:checkbox class="input-control" 
-			  							path="skill" value="${skill.name }" id="skill-${skill.code }"/>
+			  							path="skill" name="skill" value="${skill.name }" id="skill-${skill.code }"/>
 			  							<label for="skill-${skill.code }">${skill.name }</label>
 			  						</c:forEach>
 		  						</c:if>
@@ -182,10 +182,11 @@
 		  				<button style="width: 10rem;" class="btn btn-primary" type="submit">검색</button>
   					</div>
   					<div class="col-sm-6 text-right">
-		  				<a class="btn btn-primary" type="button" href="/search.do">전부검색</a>
-		  				<button class="btn btn-primary" type="reset">초기화</button>
+		  				<button class="btn btn-primary" type="button" id="allSearch-btn">전부검색</button>
+		  				<button class="btn btn-primary" type="button" id="reset-search-btn">초기화</button>
 		  				<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#staff-input-modal">등록</button>
   					</div>
+  					<form:input type="hidden" path="isAllSearch" value="false" id="isAllSearch" />
   				</div>
   			</div>
   		</div>
@@ -214,13 +215,13 @@
   				</tr>
   			</thead>
   			<tbody class="text-center">
-  			<c:forEach items="${staffList }">
+  			<c:forEach items="${staffList }" var="staff">
   				<tr>
-  					<td>1</td>
-  					<td>1</td>
-  					<td>1</td>
-  					<td>1</td>
-  					<td>1</td>
+  					<td>${staff.no }</td>
+  					<td>${staff.name }</td>
+  					<td>${staff.gender }</td>
+  					<td>${staff.department.name }</td>
+  					<td><fmt:formatDate value="${staff.graduateDay }" pattern="yyyy-MM-dd" /></td>
   					<td>
   						<button class="btn btn-secondary">수정/삭제</button>
   					</td>
@@ -232,21 +233,34 @@
   		</c:if>
   	</div>
   	<div class="col-sm-12 mt-1 d-flex justify-content-center">
+  	<c:if test="${pagination ne null }">
+  	
 			<nav aria-label="Page navigation">
 				<ul class="pagination text-center">
-					<li class="page-item"><a class="page-link" href="#"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-									<span class="sr-only">Previous</span>
-					</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#"
-					aria-label="Next"> <span aria-hidden="true">&raquo;</span> <span
-							class="sr-only">Next</span>
-						</a></li>
+					<c:if test="${pagination.pageNo > 1 }" >
+						<li class="page-item">
+							<button type="button" class="page-link page-before" data-page="${page - 1 }"
+									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+										<span class="sr-only">이전</span>
+							</button>
+						</li>
+					</c:if>
+					<c:forEach begin="${pagination.beginPage }" end="${pagination.endPage }" var="page">
+					<li class="page-item  ${pagination.pageNo eq page ? 'active' : '' }">
+						<button type="button" class="page-link page-no" data-page="${page }" >${page }</button>
+					</li>
+					</c:forEach>
+					<c:if test="${pagination.pageNo < pagination.totalPages }"> 
+					<li class="page-item"><button type="button" class="page-link page-after" data-page="${page + 1 }" 
+						aria-label="Next"> <span aria-hidden="true">&raquo;</span> <span
+								class="sr-only">다음</span>
+							</button>
+					</li>
+					</c:if>
 				</ul>
 			</nav>
+			<form:input type="hidden" path="pageNo" value="${pagination.pageNo }" id="hidden-page-no"/>
+	</c:if>
 	</div>
   </div>
   </form:form>

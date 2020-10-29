@@ -15,6 +15,8 @@ public class SearchForm {
 	private String endYear;
 	private String endMonth;
 	private String endDay;
+	private int pageNo;
+	private String isAllSearch;
 	
 	public SearchForm() {}
 
@@ -106,14 +108,30 @@ public class SearchForm {
 		this.endDay = endDay;
 	}
 
+	public int getPageNo() {
+		return pageNo;
+	}
+
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
+
+	public String getIsAllSearch() {
+		return isAllSearch;
+	}
+
+	public void setIsAllSearch(String isAllSearch) {
+		this.isAllSearch = isAllSearch;
+	}
+
 	@Override
 	public String toString() {
 		return "SearchForm [name=" + name + ", gender=" + gender + ", department=" + department + ", education="
 				+ education + ", skill=" + Arrays.toString(skill) + ", startYear=" + startYear + ", startMonth="
 				+ startMonth + ", startDay=" + startDay + ", endYear=" + endYear + ", endMonth=" + endMonth
-				+ ", endDay=" + endDay + "]";
+				+ ", endDay=" + endDay + ", pageNo=" + pageNo + ", isAllSearch=" + isAllSearch + "]";
 	}
-	
+
 	
 	
 }
