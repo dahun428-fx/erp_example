@@ -1,0 +1,139 @@
+package com.sample.app.form;
+
+import java.util.List;
+
+public class SearchForm {
+
+	private String name;
+	private List<String> gender;
+	private String department;
+	private List<String> education;
+	private List<String> skill;
+	private String startYear;
+	private String startMonth;
+	private String startDay;
+	private String endYear;
+	private String endMonth;
+	private String endDay;
+	private int pageNo;
+	private String isAllSearch;
+	
+	public SearchForm() {}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+
+
+	public List<String> getEducation() {
+		return education;
+	}
+
+	public void setEducation(List<String> education) {
+		this.education = education;
+	}
+
+	public String getStartYear() {
+		return startYear;
+	}
+
+	public void setStartYear(String startYear) {
+		this.startYear = startYear;
+	}
+
+	public String getStartMonth() {
+		return startMonth;
+	}
+
+	public void setStartMonth(String startMonth) {
+		this.startMonth = startMonth;
+	}
+
+	public String getStartDay() {
+		return startDay;
+	}
+
+	public void setStartDay(String startDay) {
+		this.startDay = startDay;
+	}
+
+	public String getEndYear() {
+		return endYear;
+	}
+
+	public void setEndYear(String endYear) {
+		this.endYear = endYear;
+	}
+
+	public String getEndMonth() {
+		return endMonth;
+	}
+
+	public void setEndMonth(String endMonth) {
+		this.endMonth = endMonth;
+	}
+
+	public String getEndDay() {
+		return endDay;
+	}
+
+	public void setEndDay(String endDay) {
+		this.endDay = endDay;
+	}
+
+	public int getPageNo() {
+		return pageNo;
+	}
+
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
+
+	public String getIsAllSearch() {
+		return isAllSearch;
+	}
+
+	public void setIsAllSearch(String isAllSearch) {
+		this.isAllSearch = isAllSearch;
+	}
+
+	public List<String> getGender() {
+		return gender;
+	}
+
+	public void setGender(List<String> gender) {
+		this.gender = gender;
+	}
+
+	public List<String> getSkill() {
+		return skill;
+	}
+
+	public void setSkill(List<String> skill) {
+		this.skill = skill;
+	}
+
+	@Override
+	public String toString() {
+		return "SearchForm [name=" + name + ", gender=" + gender + ", department=" + department + ", education="
+				+ education + ", skill=" + skill + ", startYear=" + startYear + ", startMonth=" + startMonth
+				+ ", startDay=" + startDay + ", endYear=" + endYear + ", endMonth=" + endMonth + ", endDay=" + endDay
+				+ ", pageNo=" + pageNo + ", isAllSearch=" + isAllSearch + "]";
+	}
+
+	
+}
