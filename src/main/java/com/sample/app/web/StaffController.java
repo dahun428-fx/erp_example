@@ -82,7 +82,7 @@ public class StaffController {
 		model.addAttribute("searchForm", searchForm);
 		model.addAttribute("staffList", staffList);
 		model.addAttribute("pagination", pagination);
-		
+		model.addAttribute("totalRows", pagination.getTotalRows());
 		return "staff/staff_search_form";
 	}
 	@PostMapping("/add.do")
@@ -110,5 +110,17 @@ public class StaffController {
 	public String delete(@RequestParam("no") int staffNo) {
 		staffService.deleteStaff(staffNo);
 		return "redirect:/main.do";
+	}
+	@PostMapping("/getjumin.do")
+	@ResponseBody
+	public Map<String, Object> getJumin(@RequestBody Map<String, Object> map){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println(map);
+		String jumin = (String) map.get("jumin");
+		int staffNo = (Integer) map.get("staffNo");
+		boolean isDuplicated = staffService.isDuplicatedJumin(jumin, staffNo);
+		System.out.println(isDuplicated); 
+		resultMap.put("isDuplicated", isDuplicated);
+		return resultMap;
 	}
 }

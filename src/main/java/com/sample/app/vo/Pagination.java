@@ -40,7 +40,12 @@ public class Pagination {
 			endPage = totalPages;
 		}
 	}
-	
+	public int getRowsPerPage() {
+		return rowsPerPage;
+	}
+	public int getTotalRows() {
+		return totalRows;
+	}
 	public int getPageNo() {
 		return pageNo;
 	}

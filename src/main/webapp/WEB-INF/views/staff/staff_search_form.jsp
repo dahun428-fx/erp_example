@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -215,9 +216,10 @@
   				</tr>
   			</thead>
   			<tbody class="text-center">
-  			<c:forEach items="${staffList }" var="staff">
+  			<c:forEach items="${staffList }" var="staff" varStatus="status">
+  				<c:set var="sum" value="${sum+1}"/>
   				<tr>
-  					<td>${staff.no }</td>
+  					<td>${(pagination.pageNo - 1) * pagination.rowsPerPage + sum}</td>
   					<td>${staff.name }</td>
   					<td>${staff.gender }</td>
   					<td>${staff.department.name }</td>
@@ -236,7 +238,6 @@
   	</div>
   	<div class="col-sm-12 mt-1 d-flex justify-content-center">
   	<c:if test="${pagination ne null }">
-  	
 			<nav aria-label="Page navigation">
 				<ul class="pagination text-center">
 					<c:if test="${pagination.pageNo > 1 }" >

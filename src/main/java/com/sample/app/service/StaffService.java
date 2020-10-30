@@ -13,4 +13,5 @@ public interface StaffService {
 	Map<String, Object> getStaff(int staffNo);
 	void updateStaff(AddForm addForm);
 	void deleteStaff(int staffNo);
+	boolean isDuplicatedJumin(String jumin, int staffNo);
 }

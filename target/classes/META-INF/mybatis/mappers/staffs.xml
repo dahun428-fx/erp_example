@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sample.app.dao.StaffDao">
 
+	<select id="getJuminByJumin" resultType="Staff">
+		select 
+			STAFF_NO 		AS "no",
+			STAFF_NAME 		AS "name",
+			JUMIN_NO 		AS "juminNo",
+			SCHOOL_CODE 	AS "school.code",
+			DEPARTMENT_CODE AS "department.code",
+			GRADUATE_DAY 	AS "graduateDay"
+		from staff
+		where jumin_no 
+		in (#{jumin})
+		and staff_no not in (#{no}) 
+	</select>
 	<select id="getStaffByNo" parameterType="int" resultType="Staff">
 		SELECT 
 			STAFF_NO 		AS "no",
@@ -45,6 +58,18 @@
 						CASE
 							WHEN #{item} = 'male' then '3'
 							ELSE  '4'
+						END,
+						CASE
+							WHEN #{item} = 'male' then '5'
+							ELSE  '6'
+						END,
+						CASE
+							WHEN #{item} = 'male' then '7'
+							ELSE  '8'
+						END,
+						CASE
+							WHEN #{item} = 'male' then '9'
+							ELSE  '0'
 						END
 					</foreach>
 				</if>

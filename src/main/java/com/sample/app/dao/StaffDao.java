@@ -3,6 +3,8 @@ package com.sample.app.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.sample.app.vo.Staff;
 
 public interface StaffDao {
@@ -12,4 +14,5 @@ public interface StaffDao {
 	Staff getStaffByNo(int staffNo);
 	void updateStaff(Staff staff);
 	void deleteStaff(int staffNo);
+	Staff getJuminByJumin(@Param("jumin") String jumin, @Param("no") int staffNo);
 }

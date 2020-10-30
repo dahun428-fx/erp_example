@@ -56,6 +56,7 @@ $(function(){
 		
 	})
 	$('#updel-form').submit(function(){
+		var $no = $('#staff-no');
 		var $name = $('#updel-staff-name');
 		var $jumin_1 = $('#updel-jumin-first-box');
 		var $jumin_2 = $('#updel-jumin-second-box');
@@ -74,16 +75,15 @@ $(function(){
 			alert('이름을 입력해주세요');
 			return false;
 		}
-		if($jumin_1.val() === '' || $jumin_2.val() === ''){
-			alert('주민번호를 입력해주세요');
+		//주민번호 체크
+		var availableJumin = ssnCheck($jumin_1.val(), $jumin_2.val())
+		if(!availableJumin){
 			return false;
 		}
-		if(!regex.test($jumin_1.val()) || !regex.test($jumin_2.val())){
-			alert('주민번호는 숫자만 입력해주세요');
-			return false;
-		}
-		if(!($jumin_1.val().length === 6) || !($jumin_2.val().length === 7)){
-			alert('올바르지 않은 주민 번호입니다.');
+		var isDuplJumin = duplicatedJuminCheck($jumin_1.val(), $jumin_2.val(), $no.val());
+		console.log('is',isDuplJumin);
+		if(isDuplJumin){
+			alert('존재하는 사원 정보입니다.');
 			return false;
 		}
 		if($dept.val() === ''){
@@ -115,20 +115,6 @@ $(function(){
 		if(isConfirm){
 			$('#delete-form').submit();
 		}
-//		var data = new Object();
-//		var isConfirm = confirm('정말 삭제 하시겠습니까 ?');
-//		if(!isConfirm){
-//			return;
-//		} else {
-//			$.ajax({
-//				type:'POST',
-//				url:'/delete.do',
-//				data:JSON.stringify(data)
-//			})
-//			
-//			
-//		}
-//		
 	})
 	
 	
@@ -183,9 +169,12 @@ $(function(){
 			$('#search-startDate').val(startDate_S);
 			$('#search-endDate').val(endDate_S);
 		}
-		if(startDate.getTime() >= endDate.getTime()){
-			alert('졸업일을 확인해주세요');
-			return false;
+		if(startDate !== '' && endDate !== ''){
+			
+			if(startDate.getTime() >= endDate.getTime()){
+				alert('졸업일을 확인해주세요');
+				return false;
+			}
 		}
 		
 		return true;
@@ -213,16 +202,26 @@ $(function(){
 			alert('이름을 입력해주세요');
 			return false;
 		}
-		if($jumin_1.val() === '' || $jumin_2.val() === ''){
-			alert('주민번호를 입력해주세요');
+//		if($jumin_1.val() === '' || $jumin_2.val() === ''){
+//			alert('주민번호를 입력해주세요');
+//			return false;
+//		}
+//		if(!regex.test($jumin_1.val()) || !regex.test($jumin_2.val())){
+//			alert('주민번호는 숫자만 입력해주세요');
+//			return false;
+//		}
+//		if(!($jumin_1.val().length === 6) || !($jumin_2.val().length === 7)){
+//			alert('올바르지 않은 주민 번호입니다.');
+//			return false;
+//		}
+		var availableJumin = ssnCheck($jumin_1.val(), $jumin_2.val())
+		if(!availableJumin){
 			return false;
 		}
-		if(!regex.test($jumin_1.val()) || !regex.test($jumin_2.val())){
-			alert('주민번호는 숫자만 입력해주세요');
-			return false;
-		}
-		if(!($jumin_1.val().length === 6) || !($jumin_2.val().length === 7)){
-			alert('올바르지 않은 주민 번호입니다.');
+		var isDuplJumin = duplicatedJuminCheck($jumin_1.val(), $jumin_2.val(), 0);
+		console.log('is',isDuplJumin);
+		if(isDuplJumin){
+			alert('존재하는 사원 정보입니다.');
 			return false;
 		}
 		if($dept.val() === ''){
@@ -298,4 +297,85 @@ $(function(){
 		$('#end-month').val('');
 		$('#end-day').val('');
 	}
+	function ssnCheck(_ssn1, _ssn2)
+	{
+	    var ssn1    = _ssn1,
+	        ssn2    = _ssn2,
+	        ssn     = ssn1+''+ssn2,
+	        arr_ssn = [],
+	        compare = [2,3,4,5,6,7,8,9,2,3,4,5],
+	        sum     = 0;
+	 
+	    // 입력여부 체크
+	    if (ssn1 == '')
+	    {
+	        alert('주민등록번호를 기입해주세요.');
+	        return false;
+	    }
+	 
+	    if (ssn2 == '')
+	    {
+	        alert('주민등록번호를 기입해주세요.');
+	        return false;
+	    }    
+	 
+	    // 입력값 체크
+	    if (ssn1.match('[^0-9]'))
+	    {
+	        alert("주민등록번호는 숫자만 입력하셔야 합니다."); 
+	        return false; 
+	    }
+	    if (ssn2.match('[^0-9]'))
+	    {
+	        alert("주민등록번호는 숫자만 입력하셔야 합니다."); 
+	        return false; 
+	    }
+	 
+	    // 자리수 체크
+	    if (ssn.length != 13)
+	    {
+	        alert("올바른 주민등록 번호를 입력하여 주세요.");return false;
+	    }    
+	 
+	 
+	    // 공식: M = (11 - ((2×A + 3×B + 4×C + 5×D + 6×E + 7×F + 8×G + 9×H + 2×I + 3×J + 4×K + 5×L) % 11)) % 11
+	    for (var i = 0; i<13; i++) 
+	    { 
+	        arr_ssn[i] = ssn.substring(i,i+1); 
+	    }
+	     
+	    for (var i = 0; i<12; i++)
+	    {
+	        sum = sum + (arr_ssn[i] * compare[i]); 
+	    }
+	 
+	    sum = (11 - (sum % 11)) % 10;
+	     
+	    if (sum != arr_ssn[12])
+	    { 
+	        alert("올바른 주민등록 번호를 입력하여 주세요.");
+	        return false; 
+	    }
+	 
+	    return true;
+	}
+	function duplicatedJuminCheck(first, second, no){
+		var isDuplicated = false;
+		var data = new Object();
+		data.staffNo = no;
+		data.jumin = first + "-" + second;
+		$.ajax({
+			type:'POST',
+			url:'/getjumin.do',
+			contentType: 'application/json',
+			async: false,
+			data:JSON.stringify(data),
+			success:function(result){
+				isDuplicated = result.isDuplicated;
+			}
+			
+		})
+		return isDuplicated;
+	}
+	
 })

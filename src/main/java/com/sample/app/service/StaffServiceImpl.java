@@ -43,22 +43,8 @@ public class StaffServiceImpl implements StaffService{
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Staff savedStaff = staffDao.getStaffByNo(staffNo);
 		List<StaffSkill> savedSkills = skillDao.getSkillByStaffNo(staffNo);
-		StaffSkill savedStaffSkill = new StaffSkill();
-		if(!savedSkills.isEmpty()) {
-			CodeSkill[] skills = new CodeSkill[savedSkills.size()];
 
-			for(int i = 0; i < skills.length; i++) {
-				int skill = savedSkills.get(i).getSkill();
-				CodeSkill codeSkill = new CodeSkill();
-				codeSkill.setCode(skill);
-				skills[i] = codeSkill;
-			}
-			savedStaffSkill.setSkills(skills);
-			savedStaffSkill.setStaff(savedStaff);
-
-		}
 		resultMap.put("staffSkillList", savedSkills);
-		resultMap.put("staffSkill", savedStaffSkill);
 		resultMap.put("staff", savedStaff);
 		return resultMap;
 	}
@@ -129,9 +115,17 @@ public class StaffServiceImpl implements StaffService{
 		skillDao.add(staffSkill);
 		
 	}
+	
 	public void deleteStaff(int staffNo) {
 		skillDao.deleteByStaffNo(staffNo);
 		staffDao.deleteStaff(staffNo);
+	}
+	public boolean isDuplicatedJumin(String jumin, int staffNo) {
+		Staff savedStaff = staffDao.getJuminByJumin(jumin, staffNo);
+		System.out.println(savedStaff);
+		if(savedStaff != null) return true;
+		
+		return false;
 	}
 	
 	private Staff getStaffByAddForm(AddForm addForm) {
