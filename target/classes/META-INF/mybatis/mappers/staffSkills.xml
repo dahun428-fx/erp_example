@@ -15,6 +15,17 @@
 		</foreach>
 		) A
 	</insert>
+	<select id="getSkillByStaffNo" parameterType="int" resultType="StaffSkill">
+		SELECT 
+		    STAFF_SKILL_NO      AS "no", 
+		    STAFF_NO            AS "staff.no",
+		    SKILL_CODE          AS "skill"
+		FROM staff_skill 
+		WHERE staff_no = #{value}
+	</select>
+	<delete id="deleteByStaffNo" parameterType="int">
+		DELETE STAFF_SKILL WHERE STAFF_NO = #{value}
+	</delete>
 
 
 </mapper> 

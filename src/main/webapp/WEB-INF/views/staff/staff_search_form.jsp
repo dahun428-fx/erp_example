@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
-<html lang="utf-8">
+<html lang="ko">
 <head>
   <title>ERP 예제</title>
   <meta charset="utf-8">
@@ -45,10 +45,10 @@
 		  					</td>
 		  					<td>
 		  						<div class="form-group">
-		  							<form:radiobutton id="radio-male" class="input-control" 
+		  							<form:checkbox id="radio-male" class="input-control" 
 		  								value="male" path="gender"/>
 		  							<label for="radio-male">남</label>
-		  							<form:radiobutton id="radio-female" class="input-control"  
+		  							<form:checkbox id="radio-female" class="input-control"  
 		  								value="female" path="gender"/>
 		  							<label for="radio-female">여</label>
 		  						</div>
@@ -78,7 +78,7 @@
 		  						<!-- list jstl 구현 -->
 		  						<c:if test="${not empty schoolList}">
 			  						<c:forEach items="${schoolList }" var="school">
-			  							<form:radiobutton class="input-control" id="education-${school.code }" 
+			  							<form:checkbox class="input-control" id="education-${school.code }" 
 			  								path="education" value="${school.code }"/>
 			  							<label for="education-${school.code }">${school.name }</label>
 			  						</c:forEach>
@@ -94,7 +94,7 @@
 		  						<c:if test="${not empty skillList}">
 			  						<c:forEach items="${skillList }" var="skill">
 			  							<form:checkbox class="input-control" 
-			  							path="skill" name="skill" value="${skill.name }" id="skill-${skill.code }"/>
+			  							path="skill" name="skill" value="${skill.code }" id="skill-${skill.code }"/>
 			  							<label for="skill-${skill.code }">${skill.name }</label>
 			  						</c:forEach>
 		  						</c:if>
@@ -223,7 +223,9 @@
   					<td>${staff.department.name }</td>
   					<td><fmt:formatDate value="${staff.graduateDay }" pattern="yyyy-MM-dd" /></td>
   					<td>
-  						<button class="btn btn-secondary">수정/삭제</button>
+  						<button type="button" class="btn btn-secondary updel-btn" 
+  						data-toggle="modal" 
+  						data-staff="${staff.no }">수정/삭제</button>
   					</td>
   				</tr>
   			</c:forEach>
@@ -259,6 +261,8 @@
 					</c:if>
 				</ul>
 			</nav>
+			<form:input type="hidden" path="startDate" name="startDate" value="" id="search-startDate"/>
+			<form:input type="hidden" path="endDate" name="endDate" value="" id="search-endDate"/>
 			<form:input type="hidden" path="pageNo" value="${pagination.pageNo }" id="hidden-page-no"/>
 	</c:if>
 	</div>
@@ -266,6 +270,7 @@
   </form:form>
 </div>
 <%@ include file="./staff_input_form.jsp" %>
+<%@ include file="./staff_updel_form.jsp" %>
 <script type="text/javascript" src="<c:url value="/resources/js/erp.js" />"></script>
 </body>
 </html>

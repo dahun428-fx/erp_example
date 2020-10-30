@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 public class AddForm {
 
+	private int no;
 	private String name;
 	private int juminFirst;
 	private int juminSecond;
@@ -18,7 +19,13 @@ public class AddForm {
 	private String endDay;
 	
 	public AddForm() {}
-
+	
+	public int getNo() {
+		return no;
+	}
+	public void setNo(int no) {
+		this.no = no;
+	}
 	public String getName() {
 		return name;
 	}
@@ -117,11 +124,12 @@ public class AddForm {
 
 	@Override
 	public String toString() {
-		return "AddForm [name=" + name + ", juminFirst=" + juminFirst + ", juminSecond=" + juminSecond
+		return "AddForm [no=" + no + ", name=" + name + ", juminFirst=" + juminFirst + ", juminSecond=" + juminSecond
 				+ ", departmentCode=" + departmentCode + ", education=" + education + ", skillCode="
 				+ Arrays.toString(skillCode) + ", startYear=" + startYear + ", startMonth=" + startMonth + ", startDay="
 				+ startDay + ", endYear=" + endYear + ", endMonth=" + endMonth + ", endDay=" + endDay + "]";
 	}
+
 	
 	
 }

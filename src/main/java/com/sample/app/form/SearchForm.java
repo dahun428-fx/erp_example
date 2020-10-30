@@ -1,14 +1,17 @@
 package com.sample.app.form;
 
-import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class SearchForm {
 
 	private String name;
-	private String gender;
+	private List<String> gender;
 	private String department;
-	private String education;
-	private String[] skill;
+	private List<String> education;
+	private List<String> skill;
 	private String startYear;
 	private String startMonth;
 	private String startDay;
@@ -17,8 +20,25 @@ public class SearchForm {
 	private String endDay;
 	private int pageNo;
 	private String isAllSearch;
-	
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private String startDate;
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private String endDate;
+
 	public SearchForm() {}
+
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 
 	public String getName() {
 		return name;
@@ -28,13 +48,6 @@ public class SearchForm {
 		this.name = name;
 	}
 
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
 
 	public String getDepartment() {
 		return department;
@@ -44,20 +57,13 @@ public class SearchForm {
 		this.department = department;
 	}
 
-	public String getEducation() {
+
+	public List<String> getEducation() {
 		return education;
 	}
 
-	public void setEducation(String education) {
+	public void setEducation(List<String> education) {
 		this.education = education;
-	}
-
-	public String[] getSkill() {
-		return skill;
-	}
-
-	public void setSkill(String[] skill) {
-		this.skill = skill;
 	}
 
 	public String getStartYear() {
@@ -124,14 +130,31 @@ public class SearchForm {
 		this.isAllSearch = isAllSearch;
 	}
 
+	public List<String> getGender() {
+		return gender;
+	}
+
+	public void setGender(List<String> gender) {
+		this.gender = gender;
+	}
+
+	public List<String> getSkill() {
+		return skill;
+	}
+
+	public void setSkill(List<String> skill) {
+		this.skill = skill;
+	}
+
 	@Override
 	public String toString() {
 		return "SearchForm [name=" + name + ", gender=" + gender + ", department=" + department + ", education="
-				+ education + ", skill=" + Arrays.toString(skill) + ", startYear=" + startYear + ", startMonth="
-				+ startMonth + ", startDay=" + startDay + ", endYear=" + endYear + ", endMonth=" + endMonth
-				+ ", endDay=" + endDay + ", pageNo=" + pageNo + ", isAllSearch=" + isAllSearch + "]";
+				+ education + ", skill=" + skill + ", startYear=" + startYear + ", startMonth=" + startMonth
+				+ ", startDay=" + startDay + ", endYear=" + endYear + ", endMonth=" + endMonth + ", endDay=" + endDay
+				+ ", pageNo=" + pageNo + ", isAllSearch=" + isAllSearch + ", startDate=" + startDate + ", endDate="
+				+ endDate + "]";
 	}
 
-	
-	
+
+
 }

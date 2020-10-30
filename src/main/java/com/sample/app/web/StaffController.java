@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sample.app.form.AddForm;
 import com.sample.app.form.SearchForm;
@@ -58,11 +60,10 @@ public class StaffController {
 	@PostMapping("/search.do")
 	public String search(@ModelAttribute("searchForm") SearchForm searchForm, Model model) {
 		System.out.println(searchForm);
-		if("true".equals(searchForm.getIsAllSearch())) {
-			searchForm = new SearchForm();
-		}
-
 		Map<String, Object> param = new HashMap<String, Object>();
+		
+		param.put("searchForm", searchForm);
+
 		param.put("query", "getAllCodeSchool");
 		List<CodeSchool> schoolList = codeService.codeSchoolList(param);
 		param.put("query", "getAllCodeSkill");
@@ -70,7 +71,7 @@ public class StaffController {
 		param.put("query", "getAllCodeDepartment");
 		List<CodeDepartment> deptList = codeService.codeDepartmentList(param);
 		param.put("pageNo", ((searchForm.getPageNo() == 0) ? 1 : searchForm.getPageNo()));
-		param.put("searchForm", searchForm);
+		
 		List<Staff> staffList = (List<Staff>) staffService.list(param).get("staffList");
 		Pagination pagination = (Pagination) staffService.list(param).get("pagination");
 		
@@ -88,6 +89,26 @@ public class StaffController {
 	public String add(AddForm addForm) {
 		System.out.println(addForm);
 		staffService.addStaff(addForm);
+		return "redirect:/main.do";
+	}
+	@PostMapping("/get.do")
+	@ResponseBody
+	public Map<String, Object> get(@RequestBody Map<String, Object> param) {
+		
+		int staffNo = (Integer) param.get("staffNo");
+		Map<String, Object> resultMap = staffService.getStaff(staffNo);
+		
+		return resultMap;
+	}
+	@PostMapping("/update.do")
+	public String update(AddForm addForm) {
+		System.out.println(addForm);
+		staffService.updateStaff(addForm);
+		return "redirect:/main.do";
+	}
+	@PostMapping("/delete.do")
+	public String delete(@RequestParam("no") int staffNo) {
+		staffService.deleteStaff(staffNo);
 		return "redirect:/main.do";
 	}
 }

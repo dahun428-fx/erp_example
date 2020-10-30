@@ -12,7 +12,7 @@ public class Staff {
 	private String gender;
 	private CodeSchool school;
 	private CodeDepartment department;
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 	private Date graduateDay;
 
 	public Staff() {}
