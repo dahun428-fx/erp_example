@@ -29,6 +29,16 @@ import com.sample.app.vo.Staff;
 @Controller
 public class StaffController {
 
+	@org.springframework.web.bind.annotation.ExceptionHandler(RuntimeException.class)
+	public String runtimeExceptionHandler(RuntimeException e) {
+		e.printStackTrace();
+		return "error/server-error";
+	}
+	@org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+	public String ExceptionHandler(Exception e) {
+		e.printStackTrace();
+		return "error/server-error";
+	}	
 	@Autowired
 	private CodeService codeService;
 	
@@ -57,7 +67,7 @@ public class StaffController {
 		return "staff/staff_search_form";
 	}
 	
-	@PostMapping("/search.do")
+	@RequestMapping("/search.do")
 	public String search(@ModelAttribute("searchForm") SearchForm searchForm, Model model) {
 		System.out.println(searchForm);
 		Map<String, Object> param = new HashMap<String, Object>();
