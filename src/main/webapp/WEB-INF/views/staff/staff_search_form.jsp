@@ -12,6 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="<c:url value="/resources/css/erp.css"/>" /> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -99,6 +100,15 @@
 			  							<label for="skill-${skill.code }">${skill.name }</label>
 			  						</c:forEach>
 		  						</c:if>
+		  						</div>
+		  						<div class="form-group">
+		  							<label for="">키워드
+		  							</label>
+		  							<form:radiobutton path="keywordType" id="keyword-type-or" value="or"/>
+		  							<label for="keyword-type-or">OR</label>
+		  							<form:radiobutton path="keywordType" id="keyword-type-and" value="and"/>
+		  							<label for="keyword-type-and">AND</label>
+		  							<form:input type="text" class="form-control" path="keyword" id="keyword-box"/>
 		  						</div>
 		  					</td>
 		  				</tr>
@@ -207,11 +217,36 @@
   			</colgroup>
   			<thead class="table-dark text-center">
   				<tr>
-  					<th>번호</th>
-  					<th>이름</th>
-  					<th>성별</th>
-  					<th>부서</th>
-  					<th>졸업일</th>
+  					<th>번호 
+  						<span class="ml-1">
+  							<button type="button" class="btn btn-dark btn-sm" id="no-arrow"><i class="far fa-caret-square-${searchForm.noBtn }"></i></button>
+  							<form:input type="hidden" path="noBtn" value="${searchForm.noBtn }" id="no-arrow-val"/>
+  						</span>
+  					</th>
+  					<th>이름
+  						<span class="ml-1">
+  							<button type="button" class="btn btn-dark btn-sm" id="name-arrow"><i class="far fa-caret-square-${searchForm.nameBtn }"></i></button>
+  							<form:input type="hidden" path="nameBtn" value="${searchForm.nameBtn }" id="name-arrow-val"/>
+  						</span>
+  					</th>
+  					<th>성별
+  						<span class="ml-1">
+  							<button type="button" class="btn btn-dark btn-sm" id="gender-arrow"><i class="far fa-caret-square-${searchForm.genderBtn }"></i></button>
+  							<form:input type="hidden" path="genderBtn" value="${searchForm.genderBtn }" id="gender-arrow-val"/>
+  						</span>
+  					</th>
+  					<th>부서
+  						<span class="ml-1">
+  							<button type="button" class="btn btn-dark btn-sm" id="dept-arrow"><i class="far fa-caret-square-${searchForm.deptBtn }"></i></button>
+  							<form:input type="hidden" path="deptBtn" value="${searchForm.deptBtn }" id="dept-arrow-val"/>
+  						</span>
+  					</th>
+  					<th>졸업일
+  						<span class="ml-1">
+  							<button type="button" class="btn btn-dark btn-sm" id="graduate-arrow"><i class="far fa-caret-square-${searchForm.graduateBtn }"></i></button>
+  							<form:input type="hidden" path="graduateBtn" value="${searchForm.graduateBtn }" id="graduate-arrow-val"/>
+  						</span>
+  					</th>
   					<th></th>
   				</tr>
   			</thead>
@@ -219,7 +254,7 @@
   			<c:forEach items="${staffList }" var="staff" varStatus="status">
   				<c:set var="sum" value="${sum+1}"/>
   				<tr>
-  					<td>${(pagination.pageNo - 1) * pagination.rowsPerPage + sum}</td>
+  					<td>${staff.no }</td>
   					<td>${staff.name }</td>
   					<td>${staff.gender }</td>
   					<td>${staff.department.name }</td>

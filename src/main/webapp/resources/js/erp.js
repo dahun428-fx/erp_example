@@ -1,4 +1,29 @@
 $(function(){
+	//오름차순 & 내림차순
+
+	toggleArrow($('#no-arrow'));
+	toggleArrow($('#name-arrow'));
+	toggleArrow($('#gender-arrow'));
+	toggleArrow($('#dept-arrow'));
+	toggleArrow($('#graduate-arrow'));
+	
+	function toggleArrow($id){
+		$id.click(function(){
+			
+			var id = $(this).attr('id');
+			var $arrowId = $('#'+id+'-val');
+			var arrowVal = $arrowId.val();
+			if(arrowVal === 'up'){
+				$arrowId.val('down');
+			} else {
+				$arrowId.val('up');
+			}
+			$('#search-form').submit();
+		})
+		
+	}
+
+
 	//수정 & 삭제
 	$('.updel-btn').click(function(){
 		$('#updel-form')[0].reset();
@@ -81,7 +106,7 @@ $(function(){
 			return false;
 		}
 		var isDuplJumin = duplicatedJuminCheck($jumin_1.val(), $jumin_2.val(), $no.val());
-		console.log('is',isDuplJumin);
+		console.log('is dupli:',isDuplJumin);
 		if(isDuplJumin){
 			alert('존재하는 사원 정보입니다.');
 			return false;
@@ -104,16 +129,33 @@ $(function(){
 		}
 		var isConfirm = confirm('정말로 저장하시겠습니까?');
 		
-		// AJAX로 주민번호 중복처리
-		
 		return isConfirm;
 	});
 	$('#delete-action-btn').click(function(){
-		console.log(111);
-		console.log($('#del-staff-no').val())
+		
 		var isConfirm = confirm('정말 삭제 하시겠습니까 ?');
+		
 		if(isConfirm){
-			$('#delete-form').submit();
+			
+			var data = new Object();
+			data.no = $('#staff-no').val();
+			$.ajax({
+				type:"POST",
+				url:"/delete.do",
+				data:JSON.stringify(data),
+				contentType: 'application/json',
+				success:function(data){
+					if(data.isSuccess === 'success'){
+						history.go(0);
+					}
+				},
+				error:function(){
+					alert('실패하였습니다.')
+				}
+				
+				
+			})
+			
 		}
 	})
 	
@@ -281,6 +323,7 @@ $(function(){
 		return (year + '-' + month + '-' + day);
 	}
 	function clearBox(){
+		$('#hidden-page-no').val(1);
 		$('#name').val('');
 		$('#jumin-first-box').val('');
 		$('#jumin-second-box').val('');
@@ -296,6 +339,17 @@ $(function(){
 		$('#end-year').val('');
 		$('#end-month').val('');
 		$('#end-day').val('');
+		
+		$('#keyword-type-or').prop('checked',false);
+		$('#keyword-type-and').prop('checked',false);
+		$('#keyword-box').val('');
+		
+		$('#no-arrow-val').val('up');
+		$('#name-arrow-val').val('up');
+		$('#gender-arrow-val').val('up');
+		$('#dept-arrow-val').val('up');
+		$('#graduate-arrow-val').val('up');
+		
 	}
 	function ssnCheck(_ssn1, _ssn2)
 	{
@@ -377,5 +431,6 @@ $(function(){
 		})
 		return isDuplicated;
 	}
+	
 	
 })

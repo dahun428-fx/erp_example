@@ -67,9 +67,12 @@ public class StaffController {
 		return "staff/staff_search_form";
 	}
 	
-	@RequestMapping("/search.do")
+	@PostMapping("/search.do")
 	public String search(@ModelAttribute("searchForm") SearchForm searchForm, Model model) {
+		
 		System.out.println(searchForm);
+		
+		
 		Map<String, Object> param = new HashMap<String, Object>();
 		
 		param.put("searchForm", searchForm);
@@ -112,14 +115,22 @@ public class StaffController {
 	}
 	@PostMapping("/update.do")
 	public String update(AddForm addForm) {
-		System.out.println(addForm);
+		
 		staffService.updateStaff(addForm);
 		return "redirect:/main.do";
 	}
 	@PostMapping("/delete.do")
-	public String delete(@RequestParam("no") int staffNo) {
+	@ResponseBody
+	public Map<String, Object> delete(@RequestBody Map<String, Object> param) {
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println(param);
+		int staffNo = Integer.parseInt((String)param.get("no"));
 		staffService.deleteStaff(staffNo);
-		return "redirect:/main.do";
+		resultMap.put("isSuccess", "success");
+		resultMap.put("msg", "삭제 되었습니다.");
+		
+		return resultMap;
 	}
 	@PostMapping("/getjumin.do")
 	@ResponseBody
@@ -127,7 +138,7 @@ public class StaffController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		System.out.println(map);
 		String jumin = (String) map.get("jumin");
-		int staffNo = (Integer) map.get("staffNo");
+		int staffNo = Integer.parseInt((String) map.get("staffNo"));
 		boolean isDuplicated = staffService.isDuplicatedJumin(jumin, staffNo);
 		System.out.println(isDuplicated); 
 		resultMap.put("isDuplicated", isDuplicated);

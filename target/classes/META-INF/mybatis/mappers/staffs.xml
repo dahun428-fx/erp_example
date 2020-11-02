@@ -29,7 +29,14 @@
 	</select>
 	<sql id="pagingHeaderSql">
 		<![CDATA[
-		select B.*
+		select  
+			B.rnum, 
+			B."no", 
+			b."name", 
+			b."juminNo", 
+			b."school.code",
+			b."department.code", 
+			b."graduateDay"
 		from (
 		        select rownum as rnum, A.*
 		        from(
@@ -103,8 +110,76 @@
 					BETWEEN to_date(#{searchForm.startDate},'yyyy-MM-dd')
 					AND to_date(#{searchForm.endDate},'yyyy-MM-dd')
 				</if>
+				<if test="searchForm.keywordType != '' and searchForm.keyword != '' ">
+					<choose>
+						<when test="searchForm.keywordType == 'or' ">
+							OR STAFF_NO IN
+							(
+								SELECT STAFF_NO
+								FROM STAFF_SKILL
+								WHERE SKILL_CODE IN
+													( SELECT SKILL_CODE 
+														FROM CODE_SKILL
+														WHERE LOWER(SKILL_NAME)
+														LIKE LOWER('%'||#{searchForm.keyword}||'%')
+													) 
+							)
+						</when>
+						<when test="searchForm.keywordType == 'and' ">
+							AND STAFF_NO IN
+							(
+								SELECT STAFF_NO
+								FROM STAFF_SKILL
+								WHERE SKILL_CODE IN
+													( SELECT SKILL_CODE 
+														FROM CODE_SKILL
+														WHERE LOWER(SKILL_NAME)
+														LIKE LOWER('%'||#{searchForm.keyword}||'%')
+													) 
+							)
+						</when>
+					</choose>
+				</if>
 			</where>
 	</sql>
+	<sql id="orderbySql">
+	<trim prefix="ORDER BY" suffixOverrides=",">
+		<choose>
+			<when test="searchForm.noBtn == 'down' 
+						|| searchForm.nameBtn == 'down' 
+						|| searchForm.genderBtn == 'down'
+						|| searchForm.deptBtn == 'down' 
+						|| searchForm.graduateBtn == 'down' ">
+				<if test="searchForm.noBtn == 'down' ">
+					B."no" DESC,
+				</if>
+				<if test="searchForm.nameBtn == 'down' ">
+					B."name" DESC,
+				</if>
+				<if test="searchForm.genderBtn == 'down' ">
+					substr(B."juminNo",8,1) DESC,
+				</if>
+				<if test="searchForm.deptBtn == 'down' ">
+					B."department.code" DESC,
+				</if>
+				<if test="searchForm.graduateBtn == 'down' ">
+					B."graduateDay" DESC,
+				</if>
+			</when>
+			<otherwise>
+			B."no" ASC, 
+			B."name" ASC, 
+			substr(B."juminNo",8,1) ASC, 
+			B."school.code" ASC, 
+			B."department.code" ASC, 
+			B."graduateDay" ASC
+			</otherwise>
+		</choose>
+	</trim>
+		
+		
+	</sql>
+	
 	
 	<select id="getAllStaff" parameterType="map" resultType="Staff">
 		<if test="pagination != null">
@@ -120,13 +195,14 @@
 			GRADUATE_DAY 	AS "graduateDay"
 		FROM
 			STAFF
+		ORDER BY STAFF_NO ASC	
 		<if test="searchForm != null">
 			<include refid="searchSql" />
 		</if>
-		ORDER BY STAFF_NO ASC
 		<if test="pagination != null">
 			<include refid="pagingFooterSql" />
 		</if>
+		<include refid="orderbySql" />
 		
 		
 	</select>

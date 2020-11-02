@@ -3,6 +3,8 @@ package com.sample.app.form;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class SearchForm {
@@ -25,6 +27,15 @@ public class SearchForm {
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private String endDate;
 
+	private String keywordType;
+	private String keyword;
+	
+	private String noBtn;
+	private String nameBtn;
+	private String genderBtn;
+	private String deptBtn;
+	private String graduateBtn;
+	
 	public SearchForm() {}
 
 	public String getStartDate() {
@@ -146,15 +157,75 @@ public class SearchForm {
 		this.skill = skill;
 	}
 
+	
+	public String getKeywordType() {
+		return keywordType;
+	}
+
+	public void setKeywordType(String keywordType) {
+		this.keywordType = keywordType;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	
+	public String getNoBtn() {
+		return noBtn;
+	}
+
+	public void setNoBtn(String noBtn) {
+		this.noBtn = StringUtils.isEmpty(noBtn) ? "up" : noBtn;
+	}
+
+	public String getNameBtn() {
+		return nameBtn;
+	}
+
+	public void setNameBtn(String nameBtn) {
+		this.nameBtn = StringUtils.isEmpty(nameBtn) ? "up" : nameBtn;
+	}
+
+	public String getGenderBtn() {
+		return genderBtn;
+	}
+
+	public void setGenderBtn(String genderBtn) {
+		this.genderBtn =  StringUtils.isEmpty(genderBtn) ? "up" : genderBtn;
+	}
+
+	public String getDeptBtn() {
+		return deptBtn;
+	}
+
+	public void setDeptBtn(String deptBtn) {
+		this.deptBtn = StringUtils.isEmpty(deptBtn) ? "up" : deptBtn;
+	}
+
+	public String getGraduateBtn() {
+		return graduateBtn;
+	}
+
+	public void setGraduateBtn(String graduateBtn) {
+		this.graduateBtn = StringUtils.isEmpty(graduateBtn) ? "up" : graduateBtn;
+	}
+
 	@Override
 	public String toString() {
 		return "SearchForm [name=" + name + ", gender=" + gender + ", department=" + department + ", education="
 				+ education + ", skill=" + skill + ", startYear=" + startYear + ", startMonth=" + startMonth
 				+ ", startDay=" + startDay + ", endYear=" + endYear + ", endMonth=" + endMonth + ", endDay=" + endDay
 				+ ", pageNo=" + pageNo + ", isAllSearch=" + isAllSearch + ", startDate=" + startDate + ", endDate="
-				+ endDate + "]";
+				+ endDate + ", keywordType=" + keywordType + ", keyword=" + keyword + ", noBtn=" + noBtn + ", nameBtn="
+				+ nameBtn + ", genderBtn=" + genderBtn + ", deptBtn=" + deptBtn + ", graduateBtn=" + graduateBtn + "]";
 	}
 
-
+	
+	
 
 }
