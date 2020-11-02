@@ -114,10 +114,15 @@ public class StaffController {
 		return resultMap;
 	}
 	@PostMapping("/update.do")
-	public String update(AddForm addForm) {
-		
+	@ResponseBody
+	public Map<String, Object> update(@RequestBody AddForm addForm) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		staffService.updateStaff(addForm);
-		return "redirect:/main.do";
+		System.out.println(addForm);
+		
+		resultMap.put("isSuccess", "success");
+		resultMap.put("msg", "수정 되었습니다.");
+		return resultMap;
 	}
 	@PostMapping("/delete.do")
 	@ResponseBody
@@ -138,7 +143,7 @@ public class StaffController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		System.out.println(map);
 		String jumin = (String) map.get("jumin");
-		int staffNo = Integer.parseInt((String) map.get("staffNo"));
+		int staffNo = (Integer) map.get("staffNo");
 		boolean isDuplicated = staffService.isDuplicatedJumin(jumin, staffNo);
 		System.out.println(isDuplicated); 
 		resultMap.put("isDuplicated", isDuplicated);

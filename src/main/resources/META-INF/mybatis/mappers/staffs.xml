@@ -113,7 +113,7 @@
 				<if test="searchForm.keywordType != '' and searchForm.keyword != '' ">
 					<choose>
 						<when test="searchForm.keywordType == 'or' ">
-							OR STAFF_NO IN
+							 and exists 
 							(
 								SELECT STAFF_NO
 								FROM STAFF_SKILL
@@ -195,10 +195,10 @@
 			GRADUATE_DAY 	AS "graduateDay"
 		FROM
 			STAFF
-		ORDER BY STAFF_NO ASC	
 		<if test="searchForm != null">
 			<include refid="searchSql" />
 		</if>
+		 order by staff_no asc, staff_name asc, substr(jumin_no,8,1) asc, department_code asc, graduate_day asc
 		<if test="pagination != null">
 			<include refid="pagingFooterSql" />
 		</if>

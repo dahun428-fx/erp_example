@@ -8,7 +8,7 @@
     <div class="modal-content">
     
 <div class="container">
- <form action="update.do" method="post" id="updel-form">
+ <form method="post" id="updel-form">
   <div class="row">
   <!-- 검색 form -->
   	<div class="col-sm-12 mt-2">
@@ -139,7 +139,7 @@
   					<div class="col-sm-6 text-right">
 		  				<button 
 		  				id="update-action-btn"
-		  				style="width: 10rem;" class="btn btn-primary" type="submit">수정</button>
+		  				style="width: 10rem;" class="btn btn-primary" type="button">수정</button>
 		  				
   					</div>
   					<div class="col-sm-6 text-left">

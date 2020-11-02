@@ -8,16 +8,27 @@ $(function(){
 	toggleArrow($('#graduate-arrow'));
 	
 	function toggleArrow($id){
+		
 		$id.click(function(){
-			
 			var id = $(this).attr('id');
+			
 			var $arrowId = $('#'+id+'-val');
 			var arrowVal = $arrowId.val();
+			
 			if(arrowVal === 'up'){
+
+				$('#no-arrow-val').val('up');
+				$('#name-arrow-val').val('up');
+				$('#gender-arrow-val').val('up');
+				$('#dept-arrow-val').val('up');
+				$('#graduate-arrow-val').val('up');
+				
 				$arrowId.val('down');
 			} else {
 				$arrowId.val('up');
 			}
+			
+			
 			$('#search-form').submit();
 		})
 		
@@ -80,7 +91,8 @@ $(function(){
 		$('#staff-updel-modal').modal('show');
 		
 	})
-	$('#updel-form').submit(function(){
+	$('#update-action-btn').click(function(){
+		
 		var $no = $('#staff-no');
 		var $name = $('#updel-staff-name');
 		var $jumin_1 = $('#updel-jumin-first-box');
@@ -129,7 +141,43 @@ $(function(){
 		}
 		var isConfirm = confirm('정말로 저장하시겠습니까?');
 		
-		return isConfirm;
+		var addForm = new Object();
+		addForm.no = $no.val();
+		addForm.name = $name.val();
+		addForm.juminFirst = $jumin_1.val();
+		addForm.juminSecond = $jumin_2.val();
+		addForm.departmentCode = $dept.val();
+		addForm.education = $edu.val();
+		
+		var skillCodeArr = new Array();
+		for(var i = 0; i < $skill.length; i++){
+			skillCodeArr[i] = Number($($('#updel-form input[name=skillCode]')[i]).val());
+		}
+		
+		addForm.skillCode = skillCodeArr;
+		addForm.endYear = endYear;
+		addForm.endMonth = endMonth;
+		addForm.endDay = endDay;
+	
+		if(isConfirm){
+			$.ajax({
+				type:"POST",
+				url:"/update.do",
+				contentType: 'application/json',
+				data:JSON.stringify(addForm),
+				success:function(result){
+					console.log(result);
+					history.go(0);
+				},
+				error:function(result){
+					console.log(result);
+					alert('실패하였습니다.')
+				}
+			
+			})
+		}
+		
+		
 	});
 	$('#delete-action-btn').click(function(){
 		
@@ -194,6 +242,8 @@ $(function(){
 	
 	//날짜 확인
 	$('#search-form').submit(function(){
+		var $pageNo = $('#hidden-page-no');
+		
 		var startYear = $('#start-year').val();
 		var startMonth = $('#start-month').val();
 		var startDay = $('#start-day').val();
@@ -416,7 +466,7 @@ $(function(){
 	function duplicatedJuminCheck(first, second, no){
 		var isDuplicated = false;
 		var data = new Object();
-		data.staffNo = no;
+		data.staffNo = Number(no);
 		data.jumin = first + "-" + second;
 		$.ajax({
 			type:'POST',

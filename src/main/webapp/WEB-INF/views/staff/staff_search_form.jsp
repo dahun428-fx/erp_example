@@ -206,6 +206,9 @@
   	<!-- 검색결과 -->
   	<div class="col-sm-12 mt-5">
   		<c:if test="${staffList ne null }">
+  		<div class="col-sm-12 mt-1">
+  			<p class="text-right">검색결과 -> <span>${pagination.totalRows }</span> 건</p>
+  		</div>
   		<table class="table table-bordered">
   			<colgroup>
   			<col width="10%">
