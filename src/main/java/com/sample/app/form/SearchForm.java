@@ -1,6 +1,5 @@
 package com.sample.app.form;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -176,43 +175,43 @@ public class SearchForm {
 
 	
 	public String getNoBtn() {
-		return noBtn;
+		return StringUtils.isEmpty(noBtn) ? "up" : noBtn;
 	}
 
 	public void setNoBtn(String noBtn) {
-		this.noBtn = StringUtils.isEmpty(noBtn) ? "up" : noBtn;
+		this.noBtn = noBtn;
 	}
 
 	public String getNameBtn() {
-		return nameBtn;
+		return StringUtils.isEmpty(nameBtn) ? "up" : nameBtn;
 	}
 
 	public void setNameBtn(String nameBtn) {
-		this.nameBtn = StringUtils.isEmpty(nameBtn) ? "up" : nameBtn;
+		this.nameBtn = nameBtn;
 	}
 
 	public String getGenderBtn() {
-		return genderBtn;
+		return StringUtils.isEmpty(genderBtn) ? "up" : genderBtn;
 	}
 
 	public void setGenderBtn(String genderBtn) {
-		this.genderBtn =  StringUtils.isEmpty(genderBtn) ? "up" : genderBtn;
+		this.genderBtn = genderBtn;
 	}
 
 	public String getDeptBtn() {
-		return deptBtn;
+		return StringUtils.isEmpty(deptBtn) ? "up" : deptBtn;
 	}
 
 	public void setDeptBtn(String deptBtn) {
-		this.deptBtn = StringUtils.isEmpty(deptBtn) ? "up" : deptBtn;
+		this.deptBtn = deptBtn;
 	}
 
 	public String getGraduateBtn() {
-		return graduateBtn;
+		return StringUtils.isEmpty(graduateBtn) ? "up" : graduateBtn;
 	}
 
 	public void setGraduateBtn(String graduateBtn) {
-		this.graduateBtn = StringUtils.isEmpty(graduateBtn) ? "up" : graduateBtn;
+		this.graduateBtn = graduateBtn;
 	}
 
 	@Override

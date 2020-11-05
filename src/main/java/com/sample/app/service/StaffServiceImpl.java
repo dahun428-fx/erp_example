@@ -95,6 +95,7 @@ public class StaffServiceImpl implements StaffService{
 	}
 	@Transactional
 	public void updateStaff(AddForm addForm) {
+		System.out.println("addForm :" + addForm);
 		System.out.println(addForm);
 		if(addForm == null) {
 			new RuntimeException("정보가 존재하지 않습니다.");

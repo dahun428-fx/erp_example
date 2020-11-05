@@ -113,10 +113,10 @@ $(function(){
 			return false;
 		}
 		//주민번호 체크
-		var availableJumin = ssnCheck($jumin_1.val(), $jumin_2.val())
-		if(!availableJumin){
-			return false;
-		}
+//		var availableJumin = ssnCheck($jumin_1.val(), $jumin_2.val())
+//		if(!availableJumin){
+//			return false;
+//		}
 		var isDuplJumin = duplicatedJuminCheck($jumin_1.val(), $jumin_2.val(), $no.val());
 		console.log('is dupli:',isDuplJumin);
 		if(isDuplJumin){
@@ -151,7 +151,10 @@ $(function(){
 		
 		var skillCodeArr = new Array();
 		for(var i = 0; i < $skill.length; i++){
-			skillCodeArr[i] = Number($($('#updel-form input[name=skillCode]')[i]).val());
+			var skillCheckbox = $('#updel-form input[name=skillCode]')[i];
+			if($(skillCheckbox).is(':checked')){
+				skillCodeArr.push(Number($(skillCheckbox).val()));
+			}
 		}
 		
 		addForm.skillCode = skillCodeArr;
@@ -306,10 +309,10 @@ $(function(){
 //			alert('올바르지 않은 주민 번호입니다.');
 //			return false;
 //		}
-		var availableJumin = ssnCheck($jumin_1.val(), $jumin_2.val())
-		if(!availableJumin){
-			return false;
-		}
+//		var availableJumin = ssnCheck($jumin_1.val(), $jumin_2.val())
+//		if(!availableJumin){
+//			return false;
+//		}
 		var isDuplJumin = duplicatedJuminCheck($jumin_1.val(), $jumin_2.val(), 0);
 		console.log('is',isDuplJumin);
 		if(isDuplJumin){

@@ -19,17 +19,10 @@ import com.sample.app.vo.CodeDepartment;
 @Controller
 public class HomeController {
 	
-	@Autowired
-	private CodeService codeService;
-	
 	@RequestMapping("/")
-	public String home(Locale locale, Model model) {
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("query", "getAllCodeDepartment");
-		List<CodeDepartment> list = codeService.codeDepartmentList(param);
-		model.addAttribute("name", "jung");
-		model.addAttribute("list", list);
-		return "home";
+	public String home() {
+		
+		return "redirect:main.do";
 	}
 	
 }

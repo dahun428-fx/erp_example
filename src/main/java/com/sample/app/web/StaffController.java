@@ -49,7 +49,7 @@ public class StaffController {
 	public String main(Model model) {
 		
 		SearchForm searchForm = new SearchForm();
-		
+		System.out.println(searchForm);
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("query", "getAllCodeSchool");
 		List<CodeSchool> schoolList = codeService.codeSchoolList(param);
@@ -66,11 +66,13 @@ public class StaffController {
 		
 		return "staff/staff_search_form";
 	}
+	@GetMapping("/search.do")
+	public String gSearch() {
+		return "redirect:main.do";
+	}
 	
 	@PostMapping("/search.do")
 	public String search(@ModelAttribute("searchForm") SearchForm searchForm, Model model) {
-		
-		System.out.println(searchForm);
 		
 		
 		Map<String, Object> param = new HashMap<String, Object>();
