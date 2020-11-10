@@ -7,6 +7,7 @@
 			department_name 		as "name"
 		from
 			code_department
+		order by department_code
 	</select>
 	<select id="getDepartmentByCode" parameterType="int" resultType="CodeDepartment">
 		select 
@@ -16,5 +17,6 @@
 			code_department
 		where
 			department_code = #{value}
+		order by department_code
 	</select>
 </mapper>

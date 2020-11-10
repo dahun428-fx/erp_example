@@ -113,10 +113,10 @@ $(function(){
 			return false;
 		}
 		//주민번호 체크
-//		var availableJumin = ssnCheck($jumin_1.val(), $jumin_2.val())
-//		if(!availableJumin){
-//			return false;
-//		}
+		var availableJumin = ssnCheck($jumin_1.val(), $jumin_2.val())
+		if(!availableJumin){
+			return false;
+		}
 		var isDuplJumin = duplicatedJuminCheck($jumin_1.val(), $jumin_2.val(), $no.val());
 		console.log('is dupli:',isDuplJumin);
 		if(isDuplJumin){
@@ -309,10 +309,10 @@ $(function(){
 //			alert('올바르지 않은 주민 번호입니다.');
 //			return false;
 //		}
-//		var availableJumin = ssnCheck($jumin_1.val(), $jumin_2.val())
-//		if(!availableJumin){
-//			return false;
-//		}
+		var availableJumin = ssnCheck($jumin_1.val(), $jumin_2.val())
+		if(!availableJumin){
+			return false;
+		}
 		var isDuplJumin = duplicatedJuminCheck($jumin_1.val(), $jumin_2.val(), 0);
 		console.log('is',isDuplJumin);
 		if(isDuplJumin){

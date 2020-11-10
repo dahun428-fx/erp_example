@@ -257,7 +257,7 @@
   			<c:forEach items="${staffList }" var="staff" varStatus="status">
   				<c:set var="sum" value="${sum+1}"/>
   				<tr>
-  					<td>${staff.no }</td>
+  					<td>${staff.rowNumber}</td>
   					<td>${staff.name }</td>
   					<td>${staff.gender }</td>
   					<td>${staff.department.name }</td>

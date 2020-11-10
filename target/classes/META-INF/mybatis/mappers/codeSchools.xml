@@ -7,6 +7,7 @@
 			school_name 		as "name"
 		FROM 
 			code_school
+		order by school_code
 	</select>
 	<select id="getSchoolByCode" parameterType="int" resultType="CodeSchool">
 		SELECT
@@ -15,7 +16,8 @@
 		FROM
 			code_school
 		WHERE
-			school_code = #{value} 
+			school_code = #{value}
+		order by school_code		 
 	</select>
 	
 </mapper>

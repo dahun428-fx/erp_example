@@ -30,7 +30,7 @@
 	<sql id="pagingHeaderSql">
 		<![CDATA[
 		select  
-			B.rnum, 
+			B.rnum  			as "rowNumber", 
 			B."no", 
 			b."name", 
 			b."juminNo", 
@@ -113,7 +113,7 @@
 				<if test="searchForm.keywordType != '' and searchForm.keyword != '' ">
 					<choose>
 						<when test="searchForm.keywordType == 'or' ">
-							 and exists 
+							 OR STAFF_NO IN
 							(
 								SELECT STAFF_NO
 								FROM STAFF_SKILL
@@ -151,7 +151,7 @@
 						|| searchForm.deptBtn == 'down' 
 						|| searchForm.graduateBtn == 'down' ">
 				<if test="searchForm.noBtn == 'down' ">
-					B."no" DESC,
+					rnum DESC,
 				</if>
 				<if test="searchForm.nameBtn == 'down' ">
 					B."name" DESC,
@@ -166,14 +166,6 @@
 					B."graduateDay" DESC,
 				</if>
 			</when>
-			<otherwise>
-			B."no" ASC, 
-			B."name" ASC, 
-			substr(B."juminNo",8,1) ASC, 
-			B."school.code" ASC, 
-			B."department.code" ASC, 
-			B."graduateDay" ASC
-			</otherwise>
 		</choose>
 	</trim>
 		
@@ -198,7 +190,7 @@
 		<if test="searchForm != null">
 			<include refid="searchSql" />
 		</if>
-		 order by staff_no asc, staff_name asc, substr(jumin_no,8,1) asc, department_code asc, graduate_day asc
+		 order by staff_no desc
 		<if test="pagination != null">
 			<include refid="pagingFooterSql" />
 		</if>

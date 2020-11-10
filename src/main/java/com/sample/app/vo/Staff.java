@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Staff {
 	
+	private int rowNumber;
 	private int no;
 	private String name;
 	private String juminNo;
@@ -16,6 +17,21 @@ public class Staff {
 	private Date graduateDay;
 
 	public Staff() {}
+
+	public int getRowNumber() {
+		return rowNumber;
+	}
+
+
+	public void setRowNumber(int rowNumber) {
+		this.rowNumber = rowNumber;
+	}
+
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
 
 	public String getGender() {
 		return gender;
@@ -77,8 +93,8 @@ public class Staff {
 
 	@Override
 	public String toString() {
-		return "Staff [no=" + no + ", name=" + name + ", juminNo=" + juminNo + ", gender=" + gender + ", school="
-				+ school + ", department=" + department + ", graduateDay=" + graduateDay + "]";
+		return "Staff [rowNumber=" + rowNumber + ", no=" + no + ", name=" + name + ", juminNo=" + juminNo + ", gender="
+				+ gender + ", school=" + school + ", department=" + department + ", graduateDay=" + graduateDay + "]";
 	}
 
 	
